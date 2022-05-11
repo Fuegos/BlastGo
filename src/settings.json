@@ -1,0 +1,81 @@
+{
+    "game": {
+        "gameField": {
+            "valueFill": 0.33,
+            "indentTop": 0.18,
+            "indentLeft": 0.1,
+            "children": {
+                "blockBlue": {
+                    "valueFill": 0.19,
+                    "indentTop": 0.02,
+                    "indentLeft": 0.02
+                },
+                "blockGreen": {
+                    "valueFill": 0.19,
+                    "indentTop": 0.02,
+                    "indentLeft": 0.21
+                },
+                "blockPurple": {
+                    "valueFill": 0.19,
+                    "indentTop": 0.02,
+                    "indentLeft": 0.4
+                },
+                "blockRed": {
+                    "valueFill": 0.19,
+                    "indentTop": 0.02,
+                    "indentLeft": 0.59
+                },
+                "blockYellow": {
+                    "valueFill": 0.19,
+                    "indentTop": 0.02,
+                    "indentLeft": 0.78
+                }
+            }
+        },
+        "money": {
+            "valueFill": 0.13,
+            "indentTop": 0.02,
+            "indentLeft": 0.13
+        },
+        "pause": {
+            "valueFill": 0.07,
+            "indentTop": 0.02,
+            "indentLeft": 0.87
+        },
+        "progressBack": {
+            "valueFill": 0.29,
+            "indentTop": 0,
+            "indentLeft": 0.35,
+            "children": {
+                "progressFront": {
+                    "valueFill": 0.91,
+                    "indentTop": 0.44,
+                    "indentLeft": 0.04
+                }
+            }
+        },
+        "bonusBomb": {
+            "valueFill": 0.08,
+            "indentTop": 0.8,
+            "indentLeft": 0.625
+        },
+        "bonusChange": {
+            "valueFill": 0.08,
+            "indentTop": 0.8,
+            "indentLeft": 0.525
+        },
+        "bonusFull": {
+            "valueFill": 0.08,
+            "indentTop": 0.8,
+            "indentLeft": 0.725
+        },
+        "score": {
+            "valueFill": 0.23,
+            "indentTop": 0.18,
+            "indentLeft": 0.55
+        }
+    },
+    "end": {
+
+    }
+}
