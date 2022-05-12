@@ -1,81 +1,134 @@
 {
     "game": {
         "gameField": {
-            "valueFill": 0.33,
-            "indentTop": 0.18,
-            "indentLeft": 0.1,
-            "children": {
-                "blockBlue": {
-                    "valueFill": 0.19,
-                    "indentTop": 0.02,
-                    "indentLeft": 0.02
-                },
-                "blockGreen": {
-                    "valueFill": 0.19,
-                    "indentTop": 0.02,
-                    "indentLeft": 0.21
-                },
-                "blockPurple": {
-                    "valueFill": 0.19,
-                    "indentTop": 0.02,
-                    "indentLeft": 0.4
-                },
-                "blockRed": {
-                    "valueFill": 0.19,
-                    "indentTop": 0.02,
-                    "indentLeft": 0.59
-                },
-                "blockYellow": {
-                    "valueFill": 0.19,
-                    "indentTop": 0.02,
-                    "indentLeft": 0.78
+            "entities": [{
+                "valueFill": 0.33,
+                "indentTop": 0.18,
+                "indentLeft": 0.1,
+                "children": {
+                    "blockBlue": {
+                        "entities": [],
+                        "textes": []
+                    },
+                    "blockGreen": {
+                        "entities": [],
+                        "textes": []
+                    },
+                    "blockPurple": {
+                        "entities": [],
+                        "textes": []
+                    },
+                    "blockRed": {
+                        "entities": [],
+                        "textes": []
+                    },
+                    "blockYellow": {
+                        "entities": [],
+                        "textes": []
+                    }
                 }
-            }
+            }],
+            "textes": []
         },
         "money": {
-            "valueFill": 0.13,
-            "indentTop": 0.02,
-            "indentLeft": 0.13
+            "entities": [{
+                "valueFill": 0.13,
+                "indentTop": 0.02,
+                "indentLeft": 0.13,
+                "children": {
+                    "countMoney": {
+                        "entities": [],
+                        "textes": [{
+                            "indentTop": 0.05,
+                            "indentLeft": 0.4,
+                            "value": "400",
+                            "size": 22
+                        }]
+                    }
+                }
+            }],
+            "textes": []
         },
         "pause": {
-            "valueFill": 0.07,
-            "indentTop": 0.02,
-            "indentLeft": 0.87
+            "entities": [{
+                "valueFill": 0.07,
+                "indentTop": 0.02,
+                "indentLeft": 0.87
+            }],
+            "textes": []
         },
         "progressBack": {
-            "valueFill": 0.29,
-            "indentTop": 0,
-            "indentLeft": 0.35,
-            "children": {
-                "progressFront": {
-                    "valueFill": 0.91,
-                    "indentTop": 0.44,
-                    "indentLeft": 0.04
+            "entities": [{
+                "valueFill": 0.29,
+                "indentTop": 0,
+                "indentLeft": 0.35,
+                "children": {
+                    "progressFront": {
+                        "entities": [{
+                            "valueFill": 0.91,
+                            "indentTop": 0.44,
+                            "indentLeft": 0.04
+                        }],
+                        "textes": [] 
+                    }
                 }
-            }
+            }],
+            "textes": []
         },
         "bonusBomb": {
-            "valueFill": 0.08,
-            "indentTop": 0.8,
-            "indentLeft": 0.625
+            "entities": [{
+                "valueFill": 0.08,
+                "indentTop": 0.8,
+                "indentLeft": 0.625
+            }],
+            "textes": []
         },
         "bonusChange": {
-            "valueFill": 0.08,
-            "indentTop": 0.8,
-            "indentLeft": 0.525
+            "entities": [{
+                "valueFill": 0.08,
+                "indentTop": 0.8,
+                "indentLeft": 0.525
+            }],
+            "textes": []
         },
         "bonusFull": {
-            "valueFill": 0.08,
-            "indentTop": 0.8,
-            "indentLeft": 0.725
+            "entities": [{
+                "valueFill": 0.08,
+                "indentTop": 0.8,
+                "indentLeft": 0.725
+            }],
+            "textes": []
         },
         "score": {
-            "valueFill": 0.23,
-            "indentTop": 0.18,
-            "indentLeft": 0.55
+            "entities": [{
+                "valueFill": 0.23,
+                "indentTop": 0.18,
+                "indentLeft": 0.55,
+                "children": {
+                    "countMove": {
+                        "entities": [],
+                        "textes": [{
+                            "indentTop": 0.16,
+                            "indentLeft": 0.4,
+                            "value": "10",
+                            "size": 45
+                        }]
+                    },
+                    "countScore": {
+                        "entities": [],
+                        "textes": [{
+                            "indentTop": 0.71,
+                            "indentLeft": 0.4,
+                            "value": "15000",
+                            "size": 21
+                        }]
+                    }
+                }
+            }],
+            "textes": []
         }
     },
     "end": {
-
+        
     }
 }
