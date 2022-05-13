@@ -7,6 +7,11 @@ export class SpriteEntity extends Entity {
         super(parent, indentTop, indentLeft);
 
         this.sprite = new Sprite(texture);
+        this.isClicked = false;
+
+        this.sprite.interactive = true;
+        this.sprite.on('click', this.clicking());
+
         this.originalWidth = texture.width;
         this.originalHeight = texture.height;
         this.valueFill = valueFill;
@@ -25,5 +30,13 @@ export class SpriteEntity extends Entity {
         this.sprite.y = super.getParentY() + Math.round(super.getParentHeight() * this.indentTop); 
 
         console.log(super.getParentX(), super.getParentWidth());
+    }
+
+    clicking = () => {
+        this.isClicked = true;
+    }
+
+    unclicking = () => {
+        this.isClicked = false;
     }
 }
