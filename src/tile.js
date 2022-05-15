@@ -20,4 +20,7 @@ export class Tile {
     getNumColumn = () => this.numColumn;
 
     getColor = () => this.color;
+
+    setBonus = (bonus) => this.color = bonus;
+    
 }

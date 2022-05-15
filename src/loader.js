@@ -29,6 +29,7 @@ export class StoreTextures {
             {name: "progressBack", url: folderImg + "progress_back.png"},
             {name: "progressFront", url: folderImg + "progress_front.png"},
             {name: "score", url: folderImg + "score.png"},
+            {name: "bomb", url: folderImg + "bomb.png"},
             {name: "marvinFont", url: folderFont + "Marvin.ttf"}
         ])
         .load(() => resolve())

@@ -4,29 +4,7 @@
             "sprites": [{
                 "valueFill": 0.33,
                 "indentTop": 0.18,
-                "indentLeft": 0.1,
-                "children": {
-                    "blockBlue": {
-                        "sprites": [],
-                        "textes": []
-                    },
-                    "blockGreen": {
-                        "sprites": [],
-                        "textes": []
-                    },
-                    "blockPurple": {
-                        "sprites": [],
-                        "textes": []
-                    },
-                    "blockRed": {
-                        "sprites": [],
-                        "textes": []
-                    },
-                    "blockYellow": {
-                        "sprites": [],
-                        "textes": []
-                    }
-                }
+                "indentLeft": 0.1
             }],
             "textes": []
         },
@@ -79,23 +57,17 @@
             "sprites": [{
                 "valueFill": 0.08,
                 "indentTop": 0.8,
-                "indentLeft": 0.625
-            }],
-            "textes": []
-        },
-        "bonusChange": {
-            "sprites": [{
-                "valueFill": 0.08,
-                "indentTop": 0.8,
-                "indentLeft": 0.525
-            }],
-            "textes": []
-        },
-        "bonusFull": {
-            "sprites": [{
-                "valueFill": 0.08,
-                "indentTop": 0.8,
-                "indentLeft": 0.725
+                "indentLeft": 0.625,
+                "children": {
+                    "bomb": {
+                        "sprites": [{
+                            "valueFill": 0.5,
+                            "indentTop": 0.1,
+                            "indentLeft": 0.3
+                        }],
+                        "textes": []
+                    }
+                }
             }],
             "textes": []
         },
