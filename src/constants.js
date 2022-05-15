@@ -31,6 +31,8 @@ const GOAL_COUNT_SCORE = 2000;
 const INIT_COUNT_MONEY = 15;
 const MAX_COUNT_SHAKE = 5;
 const MIN_GROUP = 2;
+const SCORE_ONE_TILE = 10; 
+const SCORE_ONE_MOVE = 10;
 
 export {
     COUNT_ROWS, 
@@ -42,5 +44,7 @@ export {
     GOAL_COUNT_SCORE,
     INIT_COUNT_MONEY,
     MAX_COUNT_SHAKE,
-    MIN_GROUP
+    MIN_GROUP,
+    SCORE_ONE_TILE,
+    SCORE_ONE_MOVE
 };

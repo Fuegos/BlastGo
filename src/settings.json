@@ -1,29 +1,29 @@
 {
     "game": {
         "gameField": {
-            "entities": [{
+            "sprites": [{
                 "valueFill": 0.33,
                 "indentTop": 0.18,
                 "indentLeft": 0.1,
                 "children": {
                     "blockBlue": {
-                        "entities": [],
+                        "sprites": [],
                         "textes": []
                     },
                     "blockGreen": {
-                        "entities": [],
+                        "sprites": [],
                         "textes": []
                     },
                     "blockPurple": {
-                        "entities": [],
+                        "sprites": [],
                         "textes": []
                     },
                     "blockRed": {
-                        "entities": [],
+                        "sprites": [],
                         "textes": []
                     },
                     "blockYellow": {
-                        "entities": [],
+                        "sprites": [],
                         "textes": []
                     }
                 }
@@ -31,13 +31,13 @@
             "textes": []
         },
         "money": {
-            "entities": [{
+            "sprites": [{
                 "valueFill": 0.13,
                 "indentTop": 0.02,
                 "indentLeft": 0.13,
                 "children": {
                     "countMoney": {
-                        "entities": [],
+                        "sprites": [],
                         "textes": [{
                             "indentTop": 0.05,
                             "indentLeft": 0.4,
@@ -50,7 +50,7 @@
             "textes": []
         },
         "pause": {
-            "entities": [{
+            "sprites": [{
                 "valueFill": 0.07,
                 "indentTop": 0.02,
                 "indentLeft": 0.87
@@ -58,13 +58,13 @@
             "textes": []
         },
         "progressBack": {
-            "entities": [{
+            "sprites": [{
                 "valueFill": 0.29,
                 "indentTop": 0,
                 "indentLeft": 0.35,
                 "children": {
                     "progressFront": {
-                        "entities": [{
+                        "sprites": [{
                             "valueFill": 0.91,
                             "indentTop": 0.44,
                             "indentLeft": 0.04
@@ -76,7 +76,7 @@
             "textes": []
         },
         "bonusBomb": {
-            "entities": [{
+            "sprites": [{
                 "valueFill": 0.08,
                 "indentTop": 0.8,
                 "indentLeft": 0.625
@@ -84,7 +84,7 @@
             "textes": []
         },
         "bonusChange": {
-            "entities": [{
+            "sprites": [{
                 "valueFill": 0.08,
                 "indentTop": 0.8,
                 "indentLeft": 0.525
@@ -92,7 +92,7 @@
             "textes": []
         },
         "bonusFull": {
-            "entities": [{
+            "sprites": [{
                 "valueFill": 0.08,
                 "indentTop": 0.8,
                 "indentLeft": 0.725
@@ -100,13 +100,13 @@
             "textes": []
         },
         "score": {
-            "entities": [{
+            "sprites": [{
                 "valueFill": 0.23,
                 "indentTop": 0.18,
                 "indentLeft": 0.55,
                 "children": {
                     "countMove": {
-                        "entities": [],
+                        "sprites": [],
                         "textes": [{
                             "indentTop": 0.16,
                             "indentLeft": 0.4,
@@ -115,7 +115,7 @@
                         }]
                     },
                     "countScore": {
-                        "entities": [],
+                        "sprites": [],
                         "textes": [{
                             "indentTop": 0.71,
                             "indentLeft": 0.4,

@@ -1,10 +1,28 @@
+
 export class Entity {
-    constructor(parent, indentTop, indentLeft) {
+    constructor(id, keyName, parent, indentTop, indentLeft) {
+        this._id = id;
+        this.keyName = keyName;
         this.parent = parent;
         this.indentTop = indentTop;
         this.indentLeft = indentLeft;
     }
 
+    getIndentTop() {
+        return this.indentTop;
+    }
+
+    getIndentLeft() {
+        return this.indentLeft;
+    }
+
+    getId() {
+        return this._id;
+    }
+
+    getKeyName() {
+        return this.keyName;
+    } 
 
     getParentWidth() {
         return this.parent ? this.parent.width : window.innerWidth; 
