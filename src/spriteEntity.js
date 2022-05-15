@@ -31,8 +31,9 @@ export class SpriteEntity extends Entity {
     }
 
     move = (dX, dY) => {
-        this.indentLeft += super.getParentWidth() * dX;
-        this.indentTop += super.getParentHeight() * dY;
+        this.indentLeft += dX;
+        this.indentTop += dY;
+        //console.log(this.indentLeft, this.indentTop);
         this.setPosition();
     }
 

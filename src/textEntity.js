@@ -17,6 +17,10 @@ export class TextEntity extends Entity {
 
     getEntity = () => this.text;
 
+    updateValue = (value) => {
+        this.text.text = value;
+    } 
+
     resize = () => {
 
     }
