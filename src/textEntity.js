@@ -2,8 +2,8 @@ import { Text } from "pixi.js"
 import { Entity } from "./entity";
 
 export class TextEntity extends Entity {
-    constructor(parent, indentTop, indentLeft, value, size) {
-        super(parent, indentTop, indentLeft);
+    constructor(id, keyName, parent, indentTop, indentLeft, value, size) {
+        super(id, keyName, parent, indentTop, indentLeft);
 
         this.text = new Text(
             value, 
