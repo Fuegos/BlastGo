@@ -8,7 +8,8 @@
     "start": "webpack-dev-server --config webpack.dev.js",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js",
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +33,7 @@
   "dependencies": {
     "@babel/runtime": "^7.17.9",
     "core-js": "^3.22.4",
+    "gh-pages": "^4.0.0",
     "pixi-webfont-loader": "^1.0.2",
     "pixi.js": "^6.3.2",
     "uuid": "^8.3.2"
