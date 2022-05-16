@@ -97,7 +97,7 @@ export class GameSession {
         let result = false;
         this.tiles.forEach(t => {
             //console.log(this.findingGroup(t).length);
-            if(this.findingGroup(t).length >= MIN_GROUP) {
+            if(this.findingGroup(t).length >= MIN_GROUP || t.getColor() === "bomb") {
                 result = true;
             }
         });

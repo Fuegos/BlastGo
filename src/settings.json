@@ -44,7 +44,7 @@
                     "progressFront": {
                         "sprites": [{
                             "valueFill": 0.91,
-                            "indentTop": 0.44,
+                            "indentTop": 0.43,
                             "indentLeft": 0.04
                         }],
                         "textes": [] 
@@ -100,7 +100,69 @@
             "textes": []
         }
     },
-    "end": {
-        
+    "winning": {
+        "result": {
+            "sprites": [],
+            "textes": [{
+                "indentTop": 0.2,
+                "indentLeft": 0.4,
+                "value": "YOU WIN!",
+                "size": 50
+            }]
+        },
+        "scoreTotal": {
+            "sprites": [],
+            "textes": [{
+                "indentTop": 0.4,
+                "indentLeft": 0.4,
+                "value": "Your score: 0",
+                "size": 22
+            }]
+        },
+        "replay": {
+            "sprites": [{
+                "valueFill": 0.3,
+                "indentTop": 0.6,
+                "indentLeft": 0.4
+            }],
+            "textes": []
+        }
+    },
+    "gameOver": {
+        "result": {
+            "sprites": [],
+            "textes": [{
+                "indentTop": 0.2,
+                "indentLeft": 0.4,
+                "value": "YOU LOSE!",
+                "size": 50
+            }]
+        },
+        "scoreTotal": {
+            "sprites": [],
+            "textes": [{
+                "indentTop": 0.4,
+                "indentLeft": 0.4,
+                "value": "Your score: 0",
+                "size": 22
+            }]
+        },
+        "scoreGoal": {
+            "sprites": [],
+            "textes": [{
+                "indentTop": 0.5,
+                "indentLeft": 0.4,
+                "value": "Goal score: 0",
+                "size": 22
+            }]
+        },
+        "replay": {
+            "sprites": [{
+                "valueFill": 0.3,
+                "indentTop": 0.6,
+                "indentLeft": 0.4
+            }],
+            "textes": []
+        }
     }
 }

@@ -1,6 +1,7 @@
 import { Container } from "pixi.js";
 import { SpriteEntity } from "./spriteEntity.js";
 import { TextEntity } from "./textEntity.js";
+import { MovementAnimation } from "./movementAnimation.js";
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -9,6 +10,7 @@ export class Scene {
         this.scene = new Container(); 
         this.sprites = [];
         this.textes = [];
+        this.movementAnimations = [];
     }
 
     createEntities = (storeTextures, dataSettings, parent) => {
@@ -85,5 +87,27 @@ export class Scene {
         this.sprites.forEach(e => {
             e.unclicking();
         });
+    }
+
+    checkAnimation = () => this.movementAnimations.length;
+
+    animate = (deltaTime) => {
+        this.movementAnimations.forEach(a => a.move(deltaTime));
+    
+        let animateCompleted = this.movementAnimations.filter(a => a.getIsCompleted());
+        animateCompleted.forEach(a => {
+            this.movementAnimations.splice(this.movementAnimations.indexOf(a), 1);
+        });
+    }
+
+    addAnimation = (entity, time, goalIndentLeft, goalIndentTop) => {
+        this.movementAnimations.push(
+            new MovementAnimation(
+              entity,
+              time,
+              goalIndentLeft,
+              goalIndentTop
+            )
+        );
     }
 }

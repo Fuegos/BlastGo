@@ -21,8 +21,6 @@ export class StoreTextures {
             {name: "blockRed", url: folderImg + "block_red.png"},
             {name: "blockYellow", url: folderImg + "block_yellow.png"},
             {name: "bonusBomb", url: folderImg + "bonus_bomb.png"},
-            {name: "bonusChange", url: folderImg + "bonus_change.png"},
-            {name: "bonusFull", url: folderImg + "bonus_full.png"},
             {name: "gameField", url: folderImg + "game_field.png"},
             {name: "money", url: folderImg + "money.png"},
             {name: "pause", url: folderImg + "pause.png"},
@@ -30,6 +28,7 @@ export class StoreTextures {
             {name: "progressFront", url: folderImg + "progress_front.png"},
             {name: "score", url: folderImg + "score.png"},
             {name: "bomb", url: folderImg + "bomb.png"},
+            {name: "replay", url: folderImg + "replay.png"},
             {name: "marvinFont", url: folderFont + "Marvin.ttf"}
         ])
         .load(() => resolve())

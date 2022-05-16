@@ -1,7 +1,8 @@
 import { 
     GOAL_COUNT_MOVE, 
     SCORE_ONE_TILE,
-    SCORE_ONE_MOVE 
+    SCORE_ONE_MOVE, 
+    GOAL_COUNT_SCORE
 } from './constants'
 
 export class Scorer {
@@ -24,4 +25,12 @@ export class Scorer {
     getRestMove = () => this.restMove;
 
     takeAwayMove = () => this.restMove--;
+
+    getProgress = () => this.roundToOne(this.currentScore / GOAL_COUNT_SCORE);
+
+    roundToOne = (value) => value > 1 ? 1 : value;
+
+    checkGoal = () => this.currentScore >= GOAL_COUNT_SCORE;
+
+    checkLose = () => this.currentScore < GOAL_COUNT_SCORE && this.restMove === 0;
 }
