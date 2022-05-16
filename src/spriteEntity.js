@@ -11,6 +11,7 @@ export class SpriteEntity extends Entity {
 
         this.sprite.interactive = true;
         this.sprite.on('click', this.clicking);
+        this.sprite.on('touchend', this.clicking);
 
         this.originalWidth = texture.width;
         this.originalHeight = texture.height;
