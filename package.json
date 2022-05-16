@@ -32,6 +32,8 @@
   "dependencies": {
     "@babel/runtime": "^7.17.9",
     "core-js": "^3.22.4",
-    "pixi.js": "^6.3.2"
+    "pixi-webfont-loader": "^1.0.2",
+    "pixi.js": "^6.3.2",
+    "uuid": "^8.3.2"
   }
 }
