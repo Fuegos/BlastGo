@@ -33,25 +33,20 @@ export class SpriteEntity extends Entity {
     move = (dX, dY) => {
         this.indentLeft += dX;
         this.indentTop += dY;
-        //console.log(this.indentLeft, this.indentTop);
         this.setPosition();
     }
 
-    clicking = () => {
-        this.isClicked = true;
-    }
+    clicking = () => this.isClicked = true;
 
-    unclicking = () => {
-        this.isClicked = false;
-    }
+    unclicking = () => this.isClicked = false;
 
     checkClicked = () => this.isClicked;
 
-    getX() {
-        return this.sprite.x;
-    }
+    getX = () => this.sprite.x;
 
-    getY() {
-        return this.sprite.y;
-    }
+    getY = () => this.sprite.y;
+
+    getHeight = () => this.sprite.height;
+
+    getWidth = () => this.sprite.width;
 }
