@@ -6,7 +6,7 @@ export class MovementAnimation extends HandlerAnimation {
 
         super(entity);
         this.vectorX = goalIndentLeft - entity.getIndentLeft();
-        this.vercorY = goalIndentTop - entity.getIndentTop();
+        this.vectorY = goalIndentTop - entity.getIndentTop();
         this.goalIndentLeft = goalIndentLeft;
         this.goalIndentTop = goalIndentTop;
         this.completedIndentLeft = 0;
@@ -26,8 +26,8 @@ export class MovementAnimation extends HandlerAnimation {
             moveX = (dt / this.time) * this.vectorX;
         }
 
-        if(Math.abs(this.completedIndentTop) < Math.abs(this.vercorY)) {
-            moveY = (dt / this.time) * this.vercorY;
+        if(Math.abs(this.completedIndentTop) < Math.abs(this.vectorY)) {
+            moveY = (dt / this.time) * this.vectorY;
         }
 
         if(moveX || moveY) {
@@ -38,6 +38,10 @@ export class MovementAnimation extends HandlerAnimation {
 
         } else {
             this.completed();
+            this.entity.move(
+                this.vectorX - this.completedIndentLeft,
+                this.vectorY - this.completedIndentTop 
+            );
         }
     }
 

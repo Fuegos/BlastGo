@@ -9,7 +9,8 @@ import {
   MAX_COUNT_SHAKE,
   MIN_GROUP,
   GOAL_COUNT_SCORE,
-  LEN_GROUP_BOMB
+  LEN_GROUP_BOMB,
+  PRICE_BOMB
 } from "./constants.js";
 import { State } from "./state.js";
 import { GameSession } from "./gameSession.js"
@@ -24,8 +25,6 @@ const app = new Application({
 let storeTextures = new StoreTextures();
 const state = new State();
 let gameSession;
-
-let curCountMixing = 0;
 
 const createSceneGame = (storeTextures) => {
   let sceneGame = new Scene();
@@ -85,14 +84,13 @@ const updateSceneGame = (sceneGame) => {
   if(!gameSession.isImpossibleMove()) {
     gameSession.mixedTiles();
     tailsForAnimation(sceneGame, gameSession.getTiles());
-    curCountMixing++;
 
-    if(curCountMixing === MAX_COUNT_SHAKE) {
+    if(gameSession.checkCountMixing()) {
       state.gameOver();
     }
   } else {
-    curCountMixing = 0;
-
+    gameSession.resetCountMixing();
+    
     let tile = checkClickedTile(gameSession.getTiles(), sceneGame.getSprites());
 
     if(tile) {
@@ -132,8 +130,29 @@ const updateSceneGame = (sceneGame) => {
   }
 
   // click pause ?
-  // click shop bonsuse ?
-  //// replace tile to bonuce random
+
+  let bonusBomb = sceneGame.getSprites().filter(s => s.getKeyName() === "bonusBomb")[0];
+  let iconBomb = sceneGame.getSprites().filter(s => s.getKeyName() === "bomb")[0];
+
+  if(bonusBomb.checkClicked() || iconBomb.checkClicked()) {
+    let tilesForReplace = gameSession.getTiles().filter(t => t.getColor() !== "bomb");
+
+    if(tilesForReplace.length) {
+      if(gameSession.getPlayer().pay(PRICE_BOMB)) {
+        let randomTile = tilesForReplace[Math.floor(Math.random() * tilesForReplace.length)];
+        randomTile.setBonus("bomb");
+        sceneGame.destroySptite(randomTile.getId());
+        createEntityForGameField(
+          sceneGame, 
+          storeTextures, 
+          randomTile.getId(),
+          randomTile.getColor(),
+          randomTile.getNumRow(),
+          randomTile.getNumColumn() 
+        );
+      }
+    }
+  }
 }
 
 
@@ -147,35 +166,36 @@ storeTextures.build().then(() => {
   };
 
   app.ticker.add((deltaTime) => {
-    
-    if(state.checkChangeScene()) {
-      if(state.checkGameOver()) {
-        app.stage.removeChild(mainStage.getScene());
-        mainStage.getScene().destroy({children:true});
-
-        mainStage = createSceneGameOver(storeTextures);
-        app.stage.addChild(mainStage.getScene());
-
-      } else if(state.checkWinning()) {
-        app.stage.removeChild(mainStage.getScene());
-        mainStage.getScene().destroy({children:true});
-        mainStage = createSceneWinning(storeTextures);
-        
-        app.stage.addChild(mainStage.getScene());
-
-      } else if (state.checkGame()) {
-        app.stage.removeChild(mainStage.getScene());
-        mainStage.getScene().destroy({children:true});
-        mainStage = createSceneGame(storeTextures);
-        
-        app.stage.addChild(mainStage.getScene());
-      }
-
-      state.uncheck();
-    }
-
 
     if(!state.checkStateDrawingAnimation()) {
+
+      if(state.checkChangeScene()) {
+        if(state.checkGameOver()) {
+          app.stage.removeChild(mainStage.getScene());
+          mainStage.getScene().destroy({children:true});
+  
+          mainStage = createSceneGameOver(storeTextures);
+          app.stage.addChild(mainStage.getScene());
+  
+        } else if(state.checkWinning()) {
+          app.stage.removeChild(mainStage.getScene());
+          mainStage.getScene().destroy({children:true});
+          mainStage = createSceneWinning(storeTextures);
+          
+          app.stage.addChild(mainStage.getScene());
+  
+        } else if (state.checkGame()) {
+          app.stage.removeChild(mainStage.getScene());
+          mainStage.getScene().destroy({children:true});
+          mainStage = createSceneGame(storeTextures);
+          
+          app.stage.addChild(mainStage.getScene());
+        }
+  
+        state.uncheck();
+      }
+
+      
       if(state.checkWinning()) {
         let replay = mainStage.getSprites().filter(s => s.getKeyName() === "replay")[0];
         console.log(state);

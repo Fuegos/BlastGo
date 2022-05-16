@@ -36,6 +36,7 @@ const LEN_GROUP_BOMB = 7;
 const RADIUS_BOMB = 1;
 const SCORE_ONE_TILE = 10; 
 const SCORE_ONE_MOVE = 10;
+const PRICE_BOMB = 5;
 
 export {
     COUNT_ROWS, 
@@ -51,5 +52,6 @@ export {
     LEN_GROUP_BOMB,
     RADIUS_BOMB,
     SCORE_ONE_TILE,
-    SCORE_ONE_MOVE
+    SCORE_ONE_MOVE,
+    PRICE_BOMB
 };

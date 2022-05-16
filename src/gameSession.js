@@ -26,6 +26,7 @@ export class GameSession {
         this.player = new Player();
         this.scorer = new Scorer();
         this.tiles = [];
+        this.curCountMixing = 0;
         for(let i = 0; i < COUNT_ROWS; i++) {
             for(let j = 0; j < COUNT_COLUMNS; j++) {
                 this.generateTile(i, j);
@@ -106,6 +107,7 @@ export class GameSession {
     }
 
     mixedTiles = () => {
+        this.curCountMixing++;
         let randomRowCol = [];
         
         [...Array(COUNT_ROWS).keys()].forEach(r => {
@@ -130,4 +132,8 @@ export class GameSession {
     getScorer = () => this.scorer;
 
     getPlayer = () => this.player;
+
+    checkCountMixing = () => this.curCountMixing === MAX_COUNT_SHAKE
+
+    resetCountMixing = () => this.curCountMixing = 0;
 }

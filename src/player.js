@@ -6,7 +6,12 @@ export class Player {
     }
 
     pay = (amountOfPayment) => {
-        this.countMoney -= amountOfPayment;
+        if(amountOfPayment <= this.countMoney) {
+            this.countMoney -= amountOfPayment;
+            return true;
+        } else {
+            return false;
+        }
     }
     
     getCountMoney = () => this.countMoney;
