@@ -28,7 +28,7 @@ const COLOR_ASSET = {
 };
 
 const GOAL_COUNT_MOVE = 20;
-const GOAL_COUNT_SCORE = 50000;  
+const GOAL_COUNT_SCORE = 5000;  
 const INIT_COUNT_MONEY = 15;
 const MAX_COUNT_SHAKE = 5;
 const MIN_GROUP = 3;
