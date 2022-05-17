@@ -6,7 +6,6 @@ import {
   COUNT_ROWS, 
   COUNT_COLUMNS, 
   COLOR_ASSET,
-  MAX_COUNT_SHAKE,
   MIN_GROUP,
   GOAL_COUNT_SCORE,
   LEN_GROUP_BOMB,
@@ -31,6 +30,10 @@ const createSceneGame = (storeTextures) => {
   gameSession = new GameSession();
   sceneGame.createEntities(storeTextures, settings["game"], null);
 
+  updateText(sceneGame, "countScore", 50, 0, gameSession.getScorer().getCurrentScore());
+  updateText(sceneGame, "countMove", 50, 0, gameSession.getScorer().getRestMove());
+  updateText(sceneGame, "countMoney", 50, 0, gameSession.getPlayer().getCountMoney());
+
   gameSession.getTiles().forEach(t => {
     createEntityForGameField(
       sceneGame,
@@ -53,33 +56,33 @@ const createSceneGameOver = (storeTextures) => {
   let sceneGameOver = new Scene();
   sceneGameOver.createEntities(storeTextures, settings["gameOver"], null);
 
-  let scoreTotalText = sceneGameOver.getTextes().filter(t => t.getKeyName() === "scoreTotal")[0]; 
-  let scoreGoalText = sceneGameOver.getTextes().filter(t => t.getKeyName() === "scoreGoal")[0];
+  updateText(sceneGameOver, "scoreTotal", 50, 0, gameSession.getScorer().getCurrentScore());
+  updateText(sceneGameOver, "scoreGoal", 50, 0, GOAL_COUNT_SCORE);
 
-  scoreTotalText.updateValue(`Your score: ${gameSession.getScorer().getCurrentScore()}`);
-  scoreGoalText.updateValue(`Goal score: ${GOAL_COUNT_SCORE}`);
-
-  resizeScene(sceneGameOver);
+  resizeScene(sceneGameOver); 
   
   return sceneGameOver;
 }
 
 const createSceneWinning = (storeTextures) => {
   let sceneWinning = new Scene();
-
   sceneWinning.createEntities(storeTextures, settings["winning"], null);
 
-  let scoreTotalText = sceneWinning.getTextes().filter(t => t.getKeyName() === "scoreTotal")[0]; 
-  scoreTotalText.updateValue(`Your score: ${gameSession.getScorer().getCurrentScore()}`);
+  updateText(sceneWinning, "scoreTotal", 50, 0, gameSession.getScorer().getCurrentScore());
 
   resizeScene(sceneWinning);
 
   return sceneWinning;
 }
 
+const updateText = (scene, keyName, time, curValue, goalValue) => {
+  let textEntity = scene.getEntityByKeyName(keyName);
+
+  textEntity.getQueueAnimations().pushTextAnimation(time, curValue, goalValue);
+}
+
 const updateSceneGame = (sceneGame) => {
   updateProgress(sceneGame);
-  updateScreenInfo(sceneGame);
 
   if(!gameSession.isImpossibleMove()) {
     gameSession.mixedTiles();
@@ -96,6 +99,9 @@ const updateSceneGame = (sceneGame) => {
     if(tile) {
 
       let group;
+      let curCountScore = gameSession.getScorer().getCurrentScore();
+      let curCountMove = gameSession.getScorer().getRestMove();
+
       if(tile.getColor() === "bomb") {
 
         group = gameSession.activateBomb(tile);
@@ -126,18 +132,23 @@ const updateSceneGame = (sceneGame) => {
       if(gameSession.getScorer().checkLose()) {
         state.gameOver();
       }
+
+      updateText(sceneGame, "countScore", 50, curCountScore, gameSession.getScorer().getCurrentScore());
+      updateText(sceneGame, "countMove", 50, curCountMove, gameSession.getScorer().getRestMove());
     }
   }
 
   // click pause ?
 
-  let bonusBomb = sceneGame.getSprites().filter(s => s.getKeyName() === "bonusBomb")[0];
-  let iconBomb = sceneGame.getSprites().filter(s => s.getKeyName() === "bomb")[0];
+  let bonusBomb = sceneGame.getEntityByKeyName("bonusBomb");
+  let iconBomb = sceneGame.getEntityByKeyName("bomb");
 
   if(bonusBomb.checkClicked() || iconBomb.checkClicked()) {
     let tilesForReplace = gameSession.getTiles().filter(t => t.getColor() !== "bomb");
 
     if(tilesForReplace.length) {
+      let curCountMoney = gameSession.getPlayer().getCountMoney();
+
       if(gameSession.getPlayer().pay(PRICE_BOMB)) {
         let randomTile = tilesForReplace[Math.floor(Math.random() * tilesForReplace.length)];
         randomTile.setBonus("bomb");
@@ -151,6 +162,8 @@ const updateSceneGame = (sceneGame) => {
           randomTile.getNumColumn() 
         );
       }
+
+      updateText(sceneGame, "countMoney", 50, curCountMoney, gameSession.getPlayer().getCountMoney());
     }
   }
 }
@@ -167,7 +180,7 @@ storeTextures.build().then(() => {
 
   app.ticker.add((deltaTime) => {
 
-    if(!state.checkStateDrawingAnimation()) {
+    if(!state.checkInterceptAnimation()) {
 
       if(state.checkChangeScene()) {
         if(state.checkGameOver()) {
@@ -197,13 +210,12 @@ storeTextures.build().then(() => {
 
 
       if(state.checkWinning()) {
-        let replay = mainStage.getSprites().filter(s => s.getKeyName() === "replay")[0];
-        console.log(state);
+        let replay = mainStage.getEntityByKeyName("replay");
         if(replay.checkClicked()) {
           state.resetGame();
         }
       } else if(state.checkGameOver()) {
-        let replay = mainStage.getSprites().filter(s => s.getKeyName() === "replay")[0];
+        let replay = mainStage.getEntityByKeyName("replay");
         if(replay.checkClicked()) {
           state.resetGame();
         }
@@ -211,16 +223,16 @@ storeTextures.build().then(() => {
         updateSceneGame(mainStage);
       }
     }
-    
-    if (mainStage.checkAnimation()) {
 
-      state.drawAnimation();
-      
-      mainStage.animate(deltaTime);
-
+    if (mainStage.getEntities().some(e => e.getQueueAnimations().checkIntercept())) {
+      state.interceptAnimation();
     } else {
-      state.stopDrawAnimation();
+      state.stopInterceptAnimation();
     }
+
+    mainStage.getEntities().forEach(e => {
+      e.getQueueAnimations().animate(deltaTime, e)
+    });
 
     mainStage.unclickingAll();
   });
@@ -244,11 +256,13 @@ const tailsForAnimation = (sceneGame, tiles) => {
     let tile = tiles.filter(t => t.getId() === e.getId())[0];
     
     if(tile) {
-      sceneGame.addAnimation(
-        e, 
+      e.getQueueAnimations().pushMovementAnimation(
         50, 
+        e.getIndentLeft(), 
+        e.getIndentTop(),
         tile.getNumColumn() / COUNT_COLUMNS, 
-        tile.getNumRow() / COUNT_ROWS);
+        tile.getNumRow() / COUNT_ROWS
+      )
     }
   });
 }
@@ -265,26 +279,6 @@ const createEntityForGameField = (sceneGame, storeTextures, idEntity, color, num
     },
     sceneGame.getSprites().filter(e => e.getKeyName() === 'gameField')[0].getEntity()
   )
-}
-
-const updateScreenInfo = (sceneGame) => {
-  sceneGame.getTextes().filter(
-    t => t.getKeyName() === "countMoney"
-  )[0].updateValue(
-    gameSession.getPlayer().getCountMoney()
-  );
-
-  sceneGame.getTextes().filter(
-    t => t.getKeyName() === "countMove"
-  )[0].updateValue(
-    gameSession.getScorer().getRestMove()
-  );
-
-  sceneGame.getTextes().filter(
-    t => t.getKeyName() === "countScore"
-  )[0].updateValue(
-    gameSession.getScorer().getCurrentScore()
-  );
 }
 
 
@@ -349,10 +343,13 @@ const generateNewTiles = (sceneGame, storeTextures) => {
           let tileForMove = tilesSameCol.filter(t => t.getNumRow() === nearRow)[0];
 
           tileForMove.changeRow(maxFreeRow);
-          //tailsForAnimation(gameSession.getTiles(), sceneGame.getSprites());
-          sceneGame.addAnimation(
-            sceneGame.getSprites().filter(s => s.getId() === tileForMove.getId())[0],
+
+          let spriteTile = sceneGame.getEntityById(tileForMove.getId());
+
+          spriteTile.getQueueAnimations().pushMovementAnimation(
             50,
+            spriteTile.getIndentLeft(),
+            spriteTile.getIndentTop(),
             j / COUNT_COLUMNS,
             maxFreeRow / COUNT_ROWS
           );
@@ -370,13 +367,15 @@ const generateNewTiles = (sceneGame, storeTextures) => {
             j
           );
 
-          //tailsForAnimation(gameSession.getTiles(), sceneGame.getSprites());
-          sceneGame.addAnimation(
-            sceneGame.getSprites().filter(s => s.getId() === newTile.getId())[0],
+          let spriteTile = sceneGame.getEntityById(newTile.getId());
+          spriteTile.getQueueAnimations().pushMovementAnimation(
             50,
+            spriteTile.getIndentLeft(),
+            spriteTile.getIndentTop(),
             j / COUNT_COLUMNS,
             maxFreeRow / COUNT_ROWS
           );
+
         }
       }
     }
@@ -395,7 +394,7 @@ const resizeScene = (scene) => {
 }
 
 const drawProgress = (sceneGame) => {
-  let spriteProgress = sceneGame.getSprites().filter(s => s.getKeyName() === "progressFront")[0];
+  let spriteProgress = sceneGame.getEntityByKeyName("progressFront");
 
   let maskProgress = new Graphics();
   sceneGame.getScene().addChild(maskProgress);
@@ -405,7 +404,7 @@ const drawProgress = (sceneGame) => {
 }
 
 const updateProgress = (sceneGame) => {
-  let spriteProgress = sceneGame.getSprites().filter(s => s.getKeyName() === "progressFront")[0];
+  let spriteProgress = sceneGame.getEntityByKeyName("progressFront");
   let valueProgress = gameSession.getScorer().getProgress();
 
   spriteProgress.mask.clear();

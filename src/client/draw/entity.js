@@ -1,3 +1,4 @@
+import { QueueAnimations } from "../animation/queueAnimations";
 
 export class Entity {
     constructor(id, keyName, parent, indentTop, indentLeft) {
@@ -6,7 +7,10 @@ export class Entity {
         this.parent = parent;
         this.indentTop = indentTop;
         this.indentLeft = indentLeft;
+        this.queueAnimations = new QueueAnimations();
     }
+
+    getQueueAnimations = () => this.queueAnimations;
 
     getIndentTop() {
         return this.indentTop;

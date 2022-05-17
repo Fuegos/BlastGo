@@ -1,7 +1,6 @@
 import { Container } from "pixi.js";
 import { SpriteEntity } from "./spriteEntity.js";
 import { TextEntity } from "./textEntity.js";
-import { MovementAnimation } from "../animation/movementAnimation.js";
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -42,7 +41,8 @@ export class Scene {
                     key, 
                     parent, 
                     e.indentTop, 
-                    e.indentLeft, 
+                    e.indentLeft,
+                    e.textValue, 
                     e.value, 
                     e.size
                 );
@@ -74,7 +74,13 @@ export class Scene {
 
     getTextes = () => this.textes;
 
+    getEntities = () => this.sprites.concat(this.textes);
+
     getScene = () => this.scene;
+
+    getEntityByKeyName = (keyName) => this.getEntities().filter(e => e.getKeyName() === keyName)[0];
+
+    getEntityById = (id) => this.getEntities().filter(e => e.getId() === id)[0];
 
     destroySptite = (idSprite) => {
         let sprite = this.sprites.filter(s => s.getId() === idSprite)[0];
@@ -87,27 +93,5 @@ export class Scene {
         this.sprites.forEach(e => {
             e.unclicking();
         });
-    }
-
-    checkAnimation = () => this.movementAnimations.length;
-
-    animate = (deltaTime) => {
-        this.movementAnimations.forEach(a => a.move(deltaTime));
-    
-        let animateCompleted = this.movementAnimations.filter(a => a.getIsCompleted());
-        animateCompleted.forEach(a => {
-            this.movementAnimations.splice(this.movementAnimations.indexOf(a), 1);
-        });
-    }
-
-    addAnimation = (entity, time, goalIndentLeft, goalIndentTop) => {
-        this.movementAnimations.push(
-            new MovementAnimation(
-              entity,
-              time,
-              goalIndentLeft,
-              goalIndentTop
-            )
-        );
     }
 }

@@ -2,11 +2,13 @@ import { Text } from "pixi.js"
 import { Entity } from "./entity";
 
 export class TextEntity extends Entity {
-    constructor(id, keyName, parent, indentTop, indentLeft, value, size) {
+    constructor(id, keyName, parent, indentTop, indentLeft, textValue, value, size) {
         super(id, keyName, parent, indentTop, indentLeft);
 
+        this.value = value;
+        this.textValue = textValue;
         this.text = new Text(
-            value, 
+            textValue.replace(/&value&/, value), 
             {
                 fontFamily: "marvinFont",
                 fill: 0xFFFFFF,
@@ -18,8 +20,11 @@ export class TextEntity extends Entity {
     getEntity = () => this.text;
 
     updateValue = (value) => {
-        this.text.text = value;
-    } 
+        this.value = value;
+        this.text.text = this.textValue.replace(/&value&/, value);
+    }
+    
+    getValue = () => this.value;
 
     resize = () => {
 

@@ -2,23 +2,17 @@ import { HandlerAnimation } from "./handlerAnimation";
 
 export class MovementAnimation extends HandlerAnimation {
 
-    constructor(entity, time, goalIndentLeft, goalIndentTop) {
-
-        super(entity);
-        this.vectorX = goalIndentLeft - entity.getIndentLeft();
-        this.vectorY = goalIndentTop - entity.getIndentTop();
+    constructor(time, curIndentLeft, curIndentTop, goalIndentLeft, goalIndentTop) {
+        super(time, true);
+        this.vectorX = goalIndentLeft - curIndentLeft;
+        this.vectorY = goalIndentTop - curIndentTop;
         this.goalIndentLeft = goalIndentLeft;
         this.goalIndentTop = goalIndentTop;
         this.completedIndentLeft = 0;
-        this.completedIndentTop = 0;
-        this.time = time;
-        this.isCompleted = false;
+        this.completedIndentTop = 0;   
     }
 
-    completed = () => this.isCompleted = true;
-
-    move = (dt) => {
-        //console.log(this.vectorX, this.vercorY);
+    animate = (dt, entity) => {
         let moveX = 0;
         let moveY = 0;
 
@@ -34,16 +28,14 @@ export class MovementAnimation extends HandlerAnimation {
             this.completedIndentLeft += moveX;
             this.completedIndentTop += moveY;
 
-            this.entity.move(moveX, moveY);
+            entity.move(moveX, moveY);
 
         } else {
             this.completed();
-            this.entity.move(
+            entity.move(
                 this.vectorX - this.completedIndentLeft,
                 this.vectorY - this.completedIndentTop 
             );
         }
     }
-
-    getIsCompleted = () => this.isCompleted;
 }

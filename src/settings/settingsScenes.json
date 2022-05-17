@@ -19,7 +19,8 @@
                         "textes": [{
                             "indentTop": 0.05,
                             "indentLeft": 0.4,
-                            "value": "400",
+                            "textValue": "&value&",
+                            "value": 0,
                             "size": 22
                         }]
                     }
@@ -82,7 +83,8 @@
                         "textes": [{
                             "indentTop": 0.16,
                             "indentLeft": 0.4,
-                            "value": "10",
+                            "textValue": "&value&",
+                            "value": 0,
                             "size": 45
                         }]
                     },
@@ -91,7 +93,8 @@
                         "textes": [{
                             "indentTop": 0.71,
                             "indentLeft": 0.4,
-                            "value": "15000",
+                            "textValue": "&value&",
+                            "value": 0,
                             "size": 21
                         }]
                     }
@@ -106,7 +109,8 @@
             "textes": [{
                 "indentTop": 0.2,
                 "indentLeft": 0.4,
-                "value": "YOU WIN!",
+                "textValue": "YOU WIN!",
+                "value": 0,
                 "size": 50
             }]
         },
@@ -115,7 +119,8 @@
             "textes": [{
                 "indentTop": 0.4,
                 "indentLeft": 0.4,
-                "value": "Your score: 0",
+                "textValue": "Your score: &value&",
+                "value": 0,
                 "size": 22
             }]
         },
@@ -134,7 +139,8 @@
             "textes": [{
                 "indentTop": 0.2,
                 "indentLeft": 0.4,
-                "value": "YOU LOSE!",
+                "textValue": "YOU LOSE!",
+                "value": 0,
                 "size": 50
             }]
         },
@@ -143,7 +149,8 @@
             "textes": [{
                 "indentTop": 0.4,
                 "indentLeft": 0.4,
-                "value": "Your score: 0",
+                "textValue": "Your score: &value&",
+                "value": 0,
                 "size": 22
             }]
         },
@@ -152,7 +159,8 @@
             "textes": [{
                 "indentTop": 0.5,
                 "indentLeft": 0.4,
-                "value": "Goal score: 0",
+                "textValue": "Goal score: &value&",
+                "value": 0,
                 "size": 22
             }]
         },
