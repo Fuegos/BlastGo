@@ -10,9 +10,9 @@ import {
     MAX_COUNT_SHAKE,
     MIN_GROUP,
     RADIUS_BOMB
-  } from "./constants.js";
-import { Player } from "./Player.js";
-import { Tile } from "./Tile.js";
+  } from "../settings/constants.js";
+import { Player } from "./player.js";
+import { Tile } from "./tile.js";
 import { Scorer } from "./scorer";
 
 const generateRandomColors = (count) => COLORS.sort(() => 0.5 - Math.random()).slice(0, count);

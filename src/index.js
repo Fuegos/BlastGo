@@ -1,7 +1,7 @@
 import { Application, Graphics } from "pixi.js";
 import { StoreTextures } from './loader.js'
-import { Scene } from "./scene.js";
-import settings from "./settings"
+import { Scene } from "./client/draw/scene.js";
+import settings from "./settings/settingsScenes.json"
 import {
   COUNT_ROWS, 
   COUNT_COLUMNS, 
@@ -11,9 +11,9 @@ import {
   GOAL_COUNT_SCORE,
   LEN_GROUP_BOMB,
   PRICE_BOMB
-} from "./constants.js";
+} from "./settings/constants.js";
 import { State } from "./state.js";
-import { GameSession } from "./gameSession.js"
+import { GameSession } from "./logical/gameSession.js"
 
 
 const app = new Application({
@@ -195,7 +195,7 @@ storeTextures.build().then(() => {
         state.uncheck();
       }
 
-      
+
       if(state.checkWinning()) {
         let replay = mainStage.getSprites().filter(s => s.getKeyName() === "replay")[0];
         console.log(state);

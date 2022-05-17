@@ -1,7 +1,7 @@
 import { Container } from "pixi.js";
 import { SpriteEntity } from "./spriteEntity.js";
 import { TextEntity } from "./textEntity.js";
-import { MovementAnimation } from "./movementAnimation.js";
+import { MovementAnimation } from "../animation/movementAnimation.js";
 import { v4 as uuidv4 } from 'uuid';
 
 

@@ -1,4 +1,4 @@
-import { INIT_COUNT_MONEY } from './constants'
+import { INIT_COUNT_MONEY } from '../settings/constants'
 
 export class Player {
     constructor() {
