@@ -1,10 +1,11 @@
 import { Entity } from "./entity";
 import { Sprite } from "pixi.js";
+import { SpriteResizer } from "./spriteResizer";
 
 export class SpriteEntity extends Entity {
-    constructor(id, keyName, parent, indentTop, indentLeft, texture, valueFill) {
+    constructor(id, keyName, parent, indentLeft, indentTop, texture, valueFill) {
         
-        super(id, keyName, parent, indentTop, indentLeft);
+        super(id, keyName, parent, indentLeft, indentTop);
 
         this.sprite = new Sprite(texture);
         this.isClicked = false;
@@ -13,29 +14,13 @@ export class SpriteEntity extends Entity {
         this.sprite.on('click', this.clicking);
         this.sprite.on('touchend', this.clicking);
 
-        this.originalWidth = texture.width;
-        this.originalHeight = texture.height;
-        this.valueFill = valueFill;
+
+        this.resizer = new SpriteResizer(parent, valueFill, texture.width, texture.height);
     }
 
     getEntity = () => this.sprite; 
 
-    resize = () => {        
-        this.sprite.width = Math.round(super.getParentWidth() * this.valueFill);
-        let delta = this.sprite.width / this.originalWidth;
-        this.sprite.height = Math.round(this.originalHeight * delta);
-    }
-
-    setPosition = () => {
-        this.sprite.x = super.getParentX() + super.getParentWidth() * this.indentLeft;
-        this.sprite.y = super.getParentY() + super.getParentHeight() * this.indentTop; 
-    }
-
-    move = (dX, dY) => {
-        this.indentLeft += dX;
-        this.indentTop += dY;
-        this.setPosition();
-    }
+    getResizer = () => this.resizer;
 
     clicking = () => this.isClicked = true;
 
@@ -47,7 +32,7 @@ export class SpriteEntity extends Entity {
 
     getY = () => this.sprite.y;
 
-    getHeight = () => this.sprite.height;
-
     getWidth = () => this.sprite.width;
+
+    getHeight = () => this.sprite.height;
 }

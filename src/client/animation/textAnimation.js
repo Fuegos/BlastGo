@@ -16,7 +16,6 @@ export class TextAnimation extends HandlerAnimation {
             let addValue = (dt / this.time) * vectorValue;
             this.completedValue += addValue;
             entity.updateValue(Math.round(this.curValue + this.completedValue));
-            console.log(addValue);
         } else {
             this.completed();
             entity.updateValue(this.goalValue);

@@ -21,8 +21,8 @@ export class Scene {
                     uuidv4(),
                     key,
                     parent,
-                    e.indentTop,
                     e.indentLeft,
+                    e.indentTop,
                     storeTextures.getTexture(key), 
                     e.valueFill
                 );
@@ -40,8 +40,8 @@ export class Scene {
                     uuidv4(),
                     key, 
                     parent, 
-                    e.indentTop, 
                     e.indentLeft,
+                    e.indentTop, 
                     e.textValue, 
                     e.value, 
                     e.size
@@ -58,16 +58,14 @@ export class Scene {
             id,
             key,
             parent,
-            settings.indentTop,
             settings.indentLeft,
+            settings.indentTop,
             storeTextures.getTexture(key), 
             settings.valueFill
         );
 
         this.sprites.push(sprite);
         this.scene.addChild(sprite.getEntity());
-        sprite.resize();
-        sprite.setPosition();
     }
 
     getSprites = () => this.sprites;

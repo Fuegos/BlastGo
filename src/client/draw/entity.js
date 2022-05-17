@@ -1,46 +1,20 @@
 import { QueueAnimations } from "../animation/queueAnimations";
+import { Positioner } from "./positioner";
 
 export class Entity {
-    constructor(id, keyName, parent, indentTop, indentLeft) {
+    constructor(id, keyName, parent, indentLeft, indentTop) {
         this._id = id;
         this.keyName = keyName;
         this.parent = parent;
-        this.indentTop = indentTop;
-        this.indentLeft = indentLeft;
+        this.positioner = new Positioner(parent, indentLeft, indentTop);
         this.queueAnimations = new QueueAnimations();
     }
 
+    getPositioner = () => this.positioner;
+
     getQueueAnimations = () => this.queueAnimations;
 
-    getIndentTop() {
-        return this.indentTop;
-    }
+    getId = () => this._id;
 
-    getIndentLeft() {
-        return this.indentLeft;
-    }
-
-    getId() {
-        return this._id;
-    }
-
-    getKeyName() {
-        return this.keyName;
-    } 
-
-    getParentWidth() {
-        return this.parent ? this.parent.width : window.innerWidth; 
-    } 
-
-    getParentHeight() {
-        return this.parent ? this.parent.height : window.innerHeight; 
-    }
-
-    getParentX() {
-        return this.parent ? this.parent.x : 0;
-    }
-
-    getParentY() {
-        return this.parent ? this.parent.y : 0;
-    } 
+    getKeyName = () => this.keyName;
 }

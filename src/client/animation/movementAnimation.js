@@ -28,11 +28,12 @@ export class MovementAnimation extends HandlerAnimation {
             this.completedIndentLeft += moveX;
             this.completedIndentTop += moveY;
 
-            entity.move(moveX, moveY);
+            entity.getPositioner().move(entity, moveX, moveY);
 
         } else {
             this.completed();
-            entity.move(
+            entity.getPositioner().move(
+                entity,
                 this.vectorX - this.completedIndentLeft,
                 this.vectorY - this.completedIndentTop 
             );

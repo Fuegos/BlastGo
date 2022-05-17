@@ -31,10 +31,10 @@ export class QueueAnimations {
     animate = (dt, entity) => {
         let animation = this.getFirstAnimation();
 
-        console.log(this.animations.map(z => z));
-
         if(animation) {
+            //console.log(entity.getPositioner().getIndentLeft());
             animation.animate(dt, entity);
+            //console.log(entity.getPositioner().getIndentLeft());
 
             if(animation.checkCompleted()) {
                 this.extract();

@@ -21,7 +21,7 @@
                             "indentLeft": 0.4,
                             "textValue": "&value&",
                             "value": 0,
-                            "size": 22
+                            "size": 0.2
                         }]
                     }
                 }
@@ -85,7 +85,7 @@
                             "indentLeft": 0.4,
                             "textValue": "&value&",
                             "value": 0,
-                            "size": 45
+                            "size": 0.2
                         }]
                     },
                     "countScore": {
@@ -95,7 +95,7 @@
                             "indentLeft": 0.4,
                             "textValue": "&value&",
                             "value": 0,
-                            "size": 21
+                            "size": 0.1
                         }]
                     }
                 }
@@ -107,28 +107,28 @@
         "result": {
             "sprites": [],
             "textes": [{
-                "indentTop": 0.2,
-                "indentLeft": 0.4,
+                "indentTop": 0.1,
+                "indentLeft": 0.2,
                 "textValue": "YOU WIN!",
                 "value": 0,
-                "size": 50
+                "size": 0.1
             }]
         },
         "scoreTotal": {
             "sprites": [],
             "textes": [{
-                "indentTop": 0.4,
-                "indentLeft": 0.4,
+                "indentTop": 0.5,
+                "indentLeft": 0.3,
                 "textValue": "Your score: &value&",
                 "value": 0,
-                "size": 22
+                "size": 0.03
             }]
         },
         "replay": {
             "sprites": [{
                 "valueFill": 0.3,
-                "indentTop": 0.6,
-                "indentLeft": 0.4
+                "indentTop": 0.7,
+                "indentLeft": 0.3
             }],
             "textes": []
         }
@@ -137,38 +137,38 @@
         "result": {
             "sprites": [],
             "textes": [{
-                "indentTop": 0.2,
-                "indentLeft": 0.4,
+                "indentTop": 0.1,
+                "indentLeft": 0.2,
                 "textValue": "YOU LOSE!",
                 "value": 0,
-                "size": 50
+                "size": 0.1
             }]
         },
         "scoreTotal": {
             "sprites": [],
             "textes": [{
-                "indentTop": 0.4,
-                "indentLeft": 0.4,
+                "indentTop": 0.5,
+                "indentLeft": 0.3,
                 "textValue": "Your score: &value&",
                 "value": 0,
-                "size": 22
+                "size": 0.03
             }]
         },
         "scoreGoal": {
             "sprites": [],
             "textes": [{
-                "indentTop": 0.5,
-                "indentLeft": 0.4,
+                "indentTop": 0.6,
+                "indentLeft": 0.3,
                 "textValue": "Goal score: &value&",
                 "value": 0,
-                "size": 22
+                "size": 0.03
             }]
         },
         "replay": {
             "sprites": [{
                 "valueFill": 0.3,
-                "indentTop": 0.6,
-                "indentLeft": 0.4
+                "indentTop": 0.75,
+                "indentLeft": 0.3
             }],
             "textes": []
         }

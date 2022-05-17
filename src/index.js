@@ -179,7 +179,6 @@ storeTextures.build().then(() => {
   };
 
   app.ticker.add((deltaTime) => {
-
     if(!state.checkInterceptAnimation()) {
 
       if(state.checkChangeScene()) {
@@ -258,8 +257,8 @@ const tailsForAnimation = (sceneGame, tiles) => {
     if(tile) {
       e.getQueueAnimations().pushMovementAnimation(
         50, 
-        e.getIndentLeft(), 
-        e.getIndentTop(),
+        e.getPositioner().getIndentLeft(), 
+        e.getPositioner().getIndentTop(),
         tile.getNumColumn() / COUNT_COLUMNS, 
         tile.getNumRow() / COUNT_ROWS
       )
@@ -274,11 +273,13 @@ const createEntityForGameField = (sceneGame, storeTextures, idEntity, color, num
     COLOR_ASSET[color],
     {
       "valueFill": 1 / Math.max(COUNT_ROWS, COUNT_COLUMNS),
+      "indentLeft": numCol / COUNT_COLUMNS,
       "indentTop": numRow / COUNT_ROWS,
-      "indentLeft": numCol / COUNT_COLUMNS
     },
-    sceneGame.getSprites().filter(e => e.getKeyName() === 'gameField')[0].getEntity()
+    sceneGame.getEntityByKeyName("gameField").getEntity()
   )
+
+  resizeScene(sceneGame);
 }
 
 
@@ -348,8 +349,8 @@ const generateNewTiles = (sceneGame, storeTextures) => {
 
           spriteTile.getQueueAnimations().pushMovementAnimation(
             50,
-            spriteTile.getIndentLeft(),
-            spriteTile.getIndentTop(),
+            spriteTile.getPositioner().getIndentLeft(),
+            spriteTile.getPositioner().getIndentTop(),
             j / COUNT_COLUMNS,
             maxFreeRow / COUNT_ROWS
           );
@@ -370,8 +371,8 @@ const generateNewTiles = (sceneGame, storeTextures) => {
           let spriteTile = sceneGame.getEntityById(newTile.getId());
           spriteTile.getQueueAnimations().pushMovementAnimation(
             50,
-            spriteTile.getIndentLeft(),
-            spriteTile.getIndentTop(),
+            spriteTile.getPositioner().getIndentLeft(),
+            spriteTile.getPositioner().getIndentTop(),
             j / COUNT_COLUMNS,
             maxFreeRow / COUNT_ROWS
           );
@@ -383,13 +384,10 @@ const generateNewTiles = (sceneGame, storeTextures) => {
 }
 
 const resizeScene = (scene) => {
-  scene.getSprites().forEach(e => {
-    e.resize();
-    e.setPosition();
-  });
-
-  scene.getTextes().forEach(t => {
-    t.setPosition();
+  scene.getEntities().forEach(e => {
+    //console.log(e);
+    e.getResizer().resize(e.getEntity());
+    e.getPositioner().setPosition(e.getEntity());
   });
 }
 

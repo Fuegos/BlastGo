@@ -1,23 +1,20 @@
 import { Text } from "pixi.js"
 import { Entity } from "./entity";
+import { TextResizer } from "./textResizer";
 
 export class TextEntity extends Entity {
-    constructor(id, keyName, parent, indentTop, indentLeft, textValue, value, size) {
-        super(id, keyName, parent, indentTop, indentLeft);
+    constructor(id, keyName, parent, indentLeft, indentTop, textValue, value, fillSize) {
+        super(id, keyName, parent, indentLeft, indentTop);
 
         this.value = value;
         this.textValue = textValue;
-        this.text = new Text(
-            textValue.replace(/&value&/, value), 
-            {
-                fontFamily: "marvinFont",
-                fill: 0xFFFFFF,
-                fontSize: size
-            }
-        );
+        this.resizer = new TextResizer(parent, fillSize)
+        this.text = new Text(textValue.replace(/&value&/, value));
     }
 
     getEntity = () => this.text;
+
+    getResizer = () => this.resizer;
 
     updateValue = (value) => {
         this.value = value;
@@ -25,13 +22,4 @@ export class TextEntity extends Entity {
     }
     
     getValue = () => this.value;
-
-    resize = () => {
-
-    }
-
-    setPosition = () => {
-        this.text.x = super.getParentX() + Math.round(super.getParentWidth() * this.indentLeft);
-        this.text.y = super.getParentY() + Math.round(super.getParentHeight() * this.indentTop); 
-    }
 }
