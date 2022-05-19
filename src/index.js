@@ -13,6 +13,9 @@ import {
 } from "./settings/constants.js";
 import { State } from "./state.js";
 import { GameSession } from "./logical/gameSession.js"
+import { MovementAnimation } from "./client/animation/movementAnimation.js";
+import { TextAnimation } from "./client/animation/textAnimation.js";
+import { AlphaAnimation } from "./client/animation/alphaAnimation.js";
 
 
 const app = new Application({
@@ -24,6 +27,7 @@ const app = new Application({
 let storeTextures = new StoreTextures();
 const state = new State();
 let gameSession;
+
 
 const createSceneGame = (storeTextures) => {
   let sceneGame = new Scene();
@@ -78,11 +82,20 @@ const createSceneWinning = (storeTextures) => {
 const updateText = (scene, keyName, time, curValue, goalValue) => {
   let textEntity = scene.getEntityByKeyName(keyName);
 
-  textEntity.getQueueAnimations().pushTextAnimation(time, curValue, goalValue);
+  scene.getQueueAnimations().pushAsync(
+    new TextAnimation(
+      textEntity,
+      time,
+      false,
+      curValue,
+      goalValue
+    )
+  )
 }
 
 const updateSceneGame = (sceneGame) => {
   updateProgress(sceneGame);
+  sceneGame.destroy();
 
   if(!gameSession.isImpossibleMove()) {
     gameSession.mixedTiles();
@@ -142,6 +155,7 @@ const updateSceneGame = (sceneGame) => {
 
   let bonusBomb = sceneGame.getEntityByKeyName("bonusBomb");
   let iconBomb = sceneGame.getEntityByKeyName("bomb");
+  //console.log(sceneGame.getEntities());
 
   if(bonusBomb.checkClicked() || iconBomb.checkClicked()) {
     let tilesForReplace = gameSession.getTiles().filter(t => t.getColor() !== "bomb");
@@ -183,22 +197,22 @@ storeTextures.build().then(() => {
 
       if(state.checkChangeScene()) {
         if(state.checkGameOver()) {
-          app.stage.removeChild(mainStage.getScene());
-          mainStage.getScene().destroy({children:true});
+          mainStage.getDestroyer().push(mainStage.getScene());
+          mainStage.destroy();
   
           mainStage = createSceneGameOver(storeTextures);
           app.stage.addChild(mainStage.getScene());
   
         } else if(state.checkWinning()) {
-          app.stage.removeChild(mainStage.getScene());
-          mainStage.getScene().destroy({children:true});
+          mainStage.getDestroyer().push(mainStage.getScene());
+          mainStage.destroy();
           mainStage = createSceneWinning(storeTextures);
           
           app.stage.addChild(mainStage.getScene());
   
         } else if (state.checkGame()) {
-          app.stage.removeChild(mainStage.getScene());
-          mainStage.getScene().destroy({children:true});
+          mainStage.getDestroyer().push(mainStage.getScene());
+          mainStage.destroy();
           mainStage = createSceneGame(storeTextures);
           
           app.stage.addChild(mainStage.getScene());
@@ -222,16 +236,14 @@ storeTextures.build().then(() => {
         updateSceneGame(mainStage);
       }
     }
-
-    if (mainStage.getEntities().some(e => e.getQueueAnimations().checkIntercept())) {
+    console.log(mainStage.getQueueAnimations());
+    if (mainStage.getQueueAnimations().checkIntercept()) {
       state.interceptAnimation();
     } else {
       state.stopInterceptAnimation();
     }
 
-    mainStage.getEntities().forEach(e => {
-      e.getQueueAnimations().animate(deltaTime, e)
-    });
+    mainStage.getQueueAnimations().animate(deltaTime);
 
     mainStage.unclickingAll();
   });
@@ -251,23 +263,31 @@ const checkClickedTile = (tiles, entities) => {
 }
 
 const tailsForAnimation = (sceneGame, tiles) => {
+  let animations = [];
+
   sceneGame.getSprites().forEach(e => {
     let tile = tiles.filter(t => t.getId() === e.getId())[0];
     
     if(tile) {
-      e.getQueueAnimations().pushMovementAnimation(
-        50, 
-        e.getPositioner().getIndentLeft(), 
-        e.getPositioner().getIndentTop(),
-        tile.getNumColumn() / COUNT_COLUMNS, 
-        tile.getNumRow() / COUNT_ROWS
-      )
+      animations.push(
+        new MovementAnimation(
+          e,
+          50,
+          true,
+          e.getPositioner().getIndentLeft(), 
+          e.getPositioner().getIndentTop(),
+          tile.getNumColumn() / COUNT_COLUMNS, 
+          tile.getNumRow() / COUNT_ROWS
+        )
+      );
     }
   });
+
+  sceneGame.getQueueAnimations().pushNewGroup(animations);
 }
 
 const createEntityForGameField = (sceneGame, storeTextures, idEntity, color, numRow, numCol) => {
-  sceneGame.createSpriteEntity(
+  let spriteEntity = sceneGame.createSpriteEntity(
     storeTextures,
     idEntity,
     COLOR_ASSET[color],
@@ -280,17 +300,32 @@ const createEntityForGameField = (sceneGame, storeTextures, idEntity, color, num
   )
 
   resizeScene(sceneGame);
+
+  return spriteEntity;
 }
 
-
 const destroyTiles = (sceneGame, group) => {
+  let animations = [];
+
   group.forEach(
     g => {
       sceneGame.destroySptite(g.getId());
+      let spriteEntity = sceneGame.getEntityById(g.getId());
+      animations.push(
+        new AlphaAnimation(
+          spriteEntity,
+          50,
+          true,
+          false
+        )
+      )
+
       let removingTile = gameSession.getTiles().filter(t => t.getId() === g.getId())[0];
       gameSession.getTiles().splice(gameSession.getTiles().indexOf(removingTile), 1);
     } 
   );
+
+  sceneGame.getQueueAnimations().pushNewGroup(animations);
 }
 
 
@@ -310,6 +345,9 @@ const generateBomb = (sceneGame, tile) => {
 
 
 const generateNewTiles = (sceneGame, storeTextures) => {
+  let emergenceAnimatioms = [];
+  let movementAnimations = [];
+
   while(gameSession.getTiles().length != COUNT_ROWS * COUNT_COLUMNS) {
   
     for(let j = 0; j < COUNT_COLUMNS; j++) {
@@ -347,19 +385,24 @@ const generateNewTiles = (sceneGame, storeTextures) => {
 
           let spriteTile = sceneGame.getEntityById(tileForMove.getId());
 
-          spriteTile.getQueueAnimations().pushMovementAnimation(
-            50,
-            spriteTile.getPositioner().getIndentLeft(),
-            spriteTile.getPositioner().getIndentTop(),
-            j / COUNT_COLUMNS,
-            maxFreeRow / COUNT_ROWS
+          movementAnimations.push(
+            new MovementAnimation(
+              spriteTile,
+              50,
+              true,
+              spriteTile.getPositioner().getIndentLeft(),
+              spriteTile.getPositioner().getIndentTop(),
+              j / COUNT_COLUMNS,
+              maxFreeRow / COUNT_ROWS
+            )
           );
 
         } else {
 
           let newTile = gameSession.generateTile(maxFreeRow, j);
 
-          createEntityForGameField(
+
+          let spriteEntity = createEntityForGameField(
             sceneGame,
             storeTextures,
             newTile.getId(),
@@ -368,19 +411,35 @@ const generateNewTiles = (sceneGame, storeTextures) => {
             j
           );
 
-          let spriteTile = sceneGame.getEntityById(newTile.getId());
-          spriteTile.getQueueAnimations().pushMovementAnimation(
-            50,
-            spriteTile.getPositioner().getIndentLeft(),
-            spriteTile.getPositioner().getIndentTop(),
-            j / COUNT_COLUMNS,
-            maxFreeRow / COUNT_ROWS
+          emergenceAnimatioms.push(
+            new AlphaAnimation(
+              spriteEntity,
+              50,
+              true,
+              true
+            )
           );
 
+          let spriteTile = sceneGame.getEntityById(newTile.getId());
+
+          movementAnimations.push(
+            new MovementAnimation(
+              spriteTile,
+              50,
+              true,
+              spriteTile.getPositioner().getIndentLeft(),
+              spriteTile.getPositioner().getIndentTop(),
+              j / COUNT_COLUMNS,
+              maxFreeRow / COUNT_ROWS
+            )
+          )
         }
       }
     }
   }
+
+  sceneGame.getQueueAnimations().pushNewGroup(movementAnimations);
+  sceneGame.getQueueAnimations().pushNewGroup(emergenceAnimatioms);
 }
 
 const resizeScene = (scene) => {

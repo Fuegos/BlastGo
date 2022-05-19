@@ -1,4 +1,3 @@
-import { QueueAnimations } from "../animation/queueAnimations";
 import { Positioner } from "./positioner";
 
 export class Entity {
@@ -7,12 +6,9 @@ export class Entity {
         this.keyName = keyName;
         this.parent = parent;
         this.positioner = new Positioner(parent, indentLeft, indentTop);
-        this.queueAnimations = new QueueAnimations();
     }
 
     getPositioner = () => this.positioner;
-
-    getQueueAnimations = () => this.queueAnimations;
 
     getId = () => this._id;
 

@@ -1,24 +1,24 @@
 import { HandlerAnimation } from "./handlerAnimation";
 
 export class TextAnimation extends HandlerAnimation {
-    constructor(time, curValue, goalValue) {
-        super(time, false);
+    constructor(entity, time, isIntercept, curValue, goalValue) {
+        super(entity, time, isIntercept);
 
         this.goalValue = goalValue;
         this.curValue = curValue;
         this.completedValue = 0;
     }
 
-    animate = (dt, entity) => {
+    animate = (dt) => {
         let vectorValue = this.goalValue - this.curValue;
 
         if(Math.abs(this.completedValue) < Math.abs(vectorValue)) {
             let addValue = (dt / this.time) * vectorValue;
             this.completedValue += addValue;
-            entity.updateValue(Math.round(this.curValue + this.completedValue));
+            this.entity.updateValue(Math.round(this.curValue + this.completedValue));
         } else {
             this.completed();
-            entity.updateValue(this.goalValue);
+            this.entity.updateValue(this.goalValue);
         }
     }
 }

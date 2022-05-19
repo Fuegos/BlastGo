@@ -2,8 +2,8 @@ import { HandlerAnimation } from "./handlerAnimation";
 
 export class MovementAnimation extends HandlerAnimation {
 
-    constructor(time, curIndentLeft, curIndentTop, goalIndentLeft, goalIndentTop) {
-        super(time, true);
+    constructor(entity, time, isIntercept, curIndentLeft, curIndentTop, goalIndentLeft, goalIndentTop) {
+        super(entity, time, isIntercept);
         this.vectorX = goalIndentLeft - curIndentLeft;
         this.vectorY = goalIndentTop - curIndentTop;
         this.goalIndentLeft = goalIndentLeft;
@@ -12,7 +12,7 @@ export class MovementAnimation extends HandlerAnimation {
         this.completedIndentTop = 0;   
     }
 
-    animate = (dt, entity) => {
+    animate = (dt) => {
         let moveX = 0;
         let moveY = 0;
 
@@ -27,13 +27,13 @@ export class MovementAnimation extends HandlerAnimation {
         if(moveX || moveY) {
             this.completedIndentLeft += moveX;
             this.completedIndentTop += moveY;
-
-            entity.getPositioner().move(entity, moveX, moveY);
+            
+            this.entity.getPositioner().move(this.entity, moveX, moveY);
 
         } else {
             this.completed();
-            entity.getPositioner().move(
-                entity,
+            this.entity.getPositioner().move(
+                this.entity,
                 this.vectorX - this.completedIndentLeft,
                 this.vectorY - this.completedIndentTop 
             );

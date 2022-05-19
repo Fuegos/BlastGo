@@ -1,5 +1,6 @@
 export class HandlerAnimation {
-    constructor(time, isIntercept) {
+    constructor(entity, time, isIntercept) {
+        this.entity = entity;
         this.time = time;
         this.isCompleted = false;
         this.isIntercept = isIntercept;

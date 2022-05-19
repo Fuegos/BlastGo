@@ -1,44 +1,39 @@
-import { MovementAnimation } from "./movementAnimation.js";
-import { TextAnimation } from './textAnimation.js'
-
 export class QueueAnimations {
     constructor() {
         this.animations = [];
     }
 
-    push = (animation) => this.animations.push(animation);
+    pushAsync = (animation) => {
+        if(this.animations.length === 0) {
+            this.animations.push([]); 
+        }
 
-    pushTextAnimation = (time, curValue, goalValue) => {
-        this.push(
-            new TextAnimation(time, curValue, goalValue)
-        )
+        this.animations[0].push(animation);
     }
 
-    pushMovementAnimation = (time, curIndentLeft, curIndentTop, goalIndentLeft, goalIndentTop) => {
-        this.push(
-            new MovementAnimation(time, curIndentLeft, curIndentTop, goalIndentLeft, goalIndentTop)
-        )
-    }
-
-    checkIntercept = () => this.animations.some(a => a.checkIntercept());
+    pushNewGroup = (animations) => this.animations.push(animations);
     
     extract = () => this.animations.shift();
 
-    isNeedAnimate = () => this.animations.length;
+    isNeedAnimate = () => this.animations.length !== 0;
 
-    getFirstAnimation = () => this.isNeedAnimate() ? this.animations[0] : null;
-
-    animate = (dt, entity) => {
-        let animation = this.getFirstAnimation();
-
-        if(animation) {
-            //console.log(entity.getPositioner().getIndentLeft());
-            animation.animate(dt, entity);
-            //console.log(entity.getPositioner().getIndentLeft());
-
-            if(animation.checkCompleted()) {
+    animate = (dt) => {
+        if(this.isNeedAnimate()) {
+            let performingAnimations = this.animations[0].filter(
+                a => !a.checkCompleted()
+            );
+            
+            if(performingAnimations.length) {
+                performingAnimations.forEach(a => a.animate(dt));
+            } else {
                 this.extract();
             }
         }
     }
+
+    checkIntercept = () => this.animations.some(
+        group => group.some(
+            animate => animate.checkIntercept()
+        )
+    );
 }

@@ -1,15 +1,19 @@
 import { Container } from "pixi.js";
 import { SpriteEntity } from "./spriteEntity.js";
+import { QueueAnimations } from "../animation/queueAnimations";
 import { TextEntity } from "./textEntity.js";
 import { v4 as uuidv4 } from 'uuid';
+import { Destroyer } from "./Destroyer.js";
 
 
 export class Scene {
     constructor() {
         this.scene = new Container(); 
         this.sprites = [];
+        this.spriteForDestroy = [];
         this.textes = [];
-        this.movementAnimations = [];
+        this.queueAnimations = new QueueAnimations();
+        this.destroyer = new Destroyer();
     }
 
     createEntities = (storeTextures, dataSettings, parent) => {
@@ -66,6 +70,8 @@ export class Scene {
 
         this.sprites.push(sprite);
         this.scene.addChild(sprite.getEntity());
+
+        return sprite;
     }
 
     getSprites = () => this.sprites;
@@ -81,10 +87,21 @@ export class Scene {
     getEntityById = (id) => this.getEntities().filter(e => e.getId() === id)[0];
 
     destroySptite = (idSprite) => {
-        let sprite = this.sprites.filter(s => s.getId() === idSprite)[0];
-        this.sprites.splice(this.sprites.indexOf(sprite), 1);
-        this.scene.removeChild(sprite.getEntity());
-        sprite.getEntity().destroy({children:true, baseTexture:true});
+        let spriteEntity = this.getEntityById(idSprite);
+        //console.log(spriteEntity);
+
+        this.spriteForDestroy.push(spriteEntity);
+        this.destroyer.push(spriteEntity.getEntity());
+    }
+
+    destroy = () => {
+        if(this.destroyer.isDestroyed()) {
+            this.spriteForDestroy.forEach(s => {
+                this.sprites.splice(this.sprites.indexOf(s), 1);
+            })
+            this.spriteForDestroy = [];
+        }
+        this.destroyer.destroy();
     }
 
     unclickingAll = () => {
@@ -92,4 +109,8 @@ export class Scene {
             e.unclicking();
         });
     }
+
+    getQueueAnimations = () => this.queueAnimations;
+
+    getDestroyer = () => this.destroyer;
 }
