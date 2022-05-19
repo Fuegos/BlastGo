@@ -1,28 +1,28 @@
 import { Drawer } from "./drawer";
 
 export class Positioner extends Drawer {
-    constructor(parent, indentLeft, indentTop) {
-        super(parent);
-        this.indentLeft = indentLeft;
-        this.indentTop = indentTop;
+    constructor(parent, drawSettings) {
+        super(parent, drawSettings);
+        this.changeIndentLeft = 0;
+        this.changeIndentTop = 0;
     }
 
     setPosition = (entity) => {
-        entity.x = this.getParentX() + this.getParentWidth() * this.indentLeft;
-        entity.y = this.getParentY() + this.getParentHeight() * this.indentTop; 
+        entity.x = this.getParentX() + this.getParentWidth() * this.getIndentLeft();
+        entity.y = this.getParentY() + this.getParentHeight() * this.getIndentTop(); 
     }
 
     move = (entity, dX, dY) => {
-        this.indentLeft += dX;
-        this.indentTop += dY;
+        this.changeIndentLeft += dX;
+        this.changeIndentTop += dY;
         this.setPosition(entity.getEntity());
     }
 
-    getIndentLeft() {
-        return this.indentLeft;
+    getIndentLeft = () => {
+        return this.getScreen().indentLeft + this.changeIndentLeft;
     }
 
     getIndentTop() {
-        return this.indentTop;
+        return this.getScreen().indentTop + this.changeIndentTop;
     }
 }

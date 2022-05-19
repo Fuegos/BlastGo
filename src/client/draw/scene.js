@@ -25,10 +25,11 @@ export class Scene {
                     uuidv4(),
                     key,
                     parent,
-                    e.indentLeft,
-                    e.indentTop,
-                    storeTextures.getTexture(key), 
-                    e.valueFill
+                    storeTextures.getTexture(key),
+                    {
+                        "laptop": e.laptop,
+                        "mobile": e.mobile
+                    }
                 );
 
                 this.sprites.push(sprite);
@@ -44,11 +45,12 @@ export class Scene {
                     uuidv4(),
                     key, 
                     parent, 
-                    e.indentLeft,
-                    e.indentTop, 
                     e.textValue, 
-                    e.value, 
-                    e.size
+                    e.value,
+                    {
+                        "laptop": e.laptop,
+                        "mobile": e.mobile
+                    }
                 );
 
                 this.textes.push(text);
@@ -57,15 +59,13 @@ export class Scene {
         });
     }
 
-    createSpriteEntity = (storeTextures, id, key, settings, parent) => {
+    createSpriteEntity = (storeTextures, id, key, drawSettings, parent) => {
         let sprite = new SpriteEntity(
             id,
             key,
             parent,
-            settings.indentLeft,
-            settings.indentTop,
-            storeTextures.getTexture(key), 
-            settings.valueFill
+            storeTextures.getTexture(key),
+            drawSettings
         );
 
         this.sprites.push(sprite);

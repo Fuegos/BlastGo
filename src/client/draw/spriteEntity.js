@@ -3,9 +3,9 @@ import { Sprite } from "pixi.js";
 import { SpriteResizer } from "./spriteResizer";
 
 export class SpriteEntity extends Entity {
-    constructor(id, keyName, parent, indentLeft, indentTop, texture, valueFill) {
+    constructor(id, keyName, parent, texture, drawSettings) {
         
-        super(id, keyName, parent, indentLeft, indentTop);
+        super(id, keyName, parent, drawSettings);
 
         this.sprite = new Sprite(texture);
         this.isClicked = false;
@@ -15,7 +15,7 @@ export class SpriteEntity extends Entity {
         this.sprite.on('touchend', this.clicking);
 
 
-        this.resizer = new SpriteResizer(parent, valueFill, texture.width, texture.height);
+        this.resizer = new SpriteResizer(parent, texture.width, texture.height, drawSettings);
     }
 
     getEntity = () => this.sprite; 

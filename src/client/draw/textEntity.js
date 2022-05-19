@@ -3,12 +3,12 @@ import { Entity } from "./entity";
 import { TextResizer } from "./textResizer";
 
 export class TextEntity extends Entity {
-    constructor(id, keyName, parent, indentLeft, indentTop, textValue, value, fillSize) {
-        super(id, keyName, parent, indentLeft, indentTop);
+    constructor(id, keyName, parent, textValue, value, drawSetings) {
+        super(id, keyName, parent, drawSetings);
 
         this.value = value;
         this.textValue = textValue;
-        this.resizer = new TextResizer(parent, fillSize)
+        this.resizer = new TextResizer(parent, drawSetings)
         this.text = new Text(textValue.replace(/&value&/, value));
     }
 

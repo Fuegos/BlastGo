@@ -238,7 +238,7 @@ storeTextures.build().then(() => {
         updateSceneGame(mainStage);
       }
     }
-    //console.log(mainStage.getQueueAnimations());
+
     if (mainStage.getQueueAnimations().checkIntercept()) {
       state.interceptAnimation();
     } else {
@@ -289,14 +289,19 @@ const tailsForAnimation = (sceneGame, tiles) => {
 }
 
 const createEntityForGameField = (sceneGame, storeTextures, idEntity, color, numRow, numCol) => {
+  let drawSettings = {
+    "valueFill": 1 / Math.max(COUNT_ROWS, COUNT_COLUMNS),
+    "indentLeft": numCol / COUNT_COLUMNS,
+    "indentTop": numRow / COUNT_ROWS
+  }
+
   let spriteEntity = sceneGame.createSpriteEntity(
     storeTextures,
     idEntity,
     COLOR_ASSET[color],
     {
-      "valueFill": 1 / Math.max(COUNT_ROWS, COUNT_COLUMNS),
-      "indentLeft": numCol / COUNT_COLUMNS,
-      "indentTop": numRow / COUNT_ROWS,
+      "laptop": drawSettings,
+      "mobile": drawSettings
     },
     sceneGame.getEntityByKeyName("gameField").getEntity()
   )
@@ -446,7 +451,6 @@ const generateNewTiles = (sceneGame, storeTextures) => {
 
 const resizeScene = (scene) => {
   scene.getEntities().forEach(e => {
-    //console.log(e);
     e.getResizer().resize(e.getEntity());
     e.getPositioner().setPosition(e.getEntity());
   });

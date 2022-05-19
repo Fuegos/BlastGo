@@ -1,6 +1,7 @@
 export class Drawer {
-    constructor(parent) {
+    constructor(parent, drawSettings) {
         this.parent = parent;
+        this.drawSettings = drawSettings;
     }
 
     getParentX() {
@@ -17,5 +18,13 @@ export class Drawer {
 
     getParentHeight() {
         return this.parent ? this.parent.height : window.innerHeight; 
+    }
+
+    getScreen = () => {
+        if(window.innerWidth < window.innerHeight) {
+            return this.drawSettings.mobile;
+        } else {
+            return this.drawSettings.laptop;
+        }
     }
 }
