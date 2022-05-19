@@ -16,6 +16,7 @@ import { GameSession } from "./logical/gameSession.js"
 import { MovementAnimation } from "./client/animation/movementAnimation.js";
 import { TextAnimation } from "./client/animation/textAnimation.js";
 import { AlphaAnimation } from "./client/animation/alphaAnimation.js";
+import { ProgressAnimation } from "./client/animation/progressAnimation.js";
 
 
 const app = new Application({
@@ -94,7 +95,6 @@ const updateText = (scene, keyName, time, curValue, goalValue) => {
 }
 
 const updateSceneGame = (sceneGame) => {
-  updateProgress(sceneGame);
   sceneGame.destroy();
 
   if(!gameSession.isImpossibleMove()) {
@@ -114,6 +114,7 @@ const updateSceneGame = (sceneGame) => {
       let group;
       let curCountScore = gameSession.getScorer().getCurrentScore();
       let curCountMove = gameSession.getScorer().getRestMove();
+      let curProgress = gameSession.getScorer().getProgress();
 
       if(tile.getColor() === "bomb") {
 
@@ -148,6 +149,7 @@ const updateSceneGame = (sceneGame) => {
 
       updateText(sceneGame, "countScore", 50, curCountScore, gameSession.getScorer().getCurrentScore());
       updateText(sceneGame, "countMove", 50, curCountMove, gameSession.getScorer().getRestMove());
+      updateProgress(sceneGame, curProgress, gameSession.getScorer().getProgress());
     }
   }
 
@@ -236,7 +238,7 @@ storeTextures.build().then(() => {
         updateSceneGame(mainStage);
       }
     }
-    console.log(mainStage.getQueueAnimations());
+    //console.log(mainStage.getQueueAnimations());
     if (mainStage.getQueueAnimations().checkIntercept()) {
       state.interceptAnimation();
     } else {
@@ -452,25 +454,21 @@ const resizeScene = (scene) => {
 
 const drawProgress = (sceneGame) => {
   let spriteProgress = sceneGame.getEntityByKeyName("progressFront");
-
   let maskProgress = new Graphics();
   sceneGame.getScene().addChild(maskProgress);
 
-  spriteProgress.mask = maskProgress;
-
+  spriteProgress.getEntity().mask = maskProgress;
 }
 
-const updateProgress = (sceneGame) => {
+const updateProgress = (sceneGame, curProgress, goalProgress) => {
   let spriteProgress = sceneGame.getEntityByKeyName("progressFront");
-  let valueProgress = gameSession.getScorer().getProgress();
-
-  spriteProgress.mask.clear();
-  spriteProgress.mask.beginFill(0x011938);
-  spriteProgress.mask.drawRoundedRect(
-    spriteProgress.getX() + valueProgress * spriteProgress.getWidth(), 
-    spriteProgress.getY(), 
-    (1 - valueProgress) * spriteProgress.getWidth(), 
-    spriteProgress.getHeight(),
-    10);
-  spriteProgress.mask.endFill();
+  sceneGame.getQueueAnimations().pushAsync(
+    new ProgressAnimation(
+      spriteProgress,
+      50,
+      false,
+      curProgress,
+      goalProgress
+    )
+  )
 }
