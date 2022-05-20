@@ -10,7 +10,6 @@ export class Scene {
     constructor() {
         this.scene = new Container(); 
         this.sprites = [];
-        this.spriteForDestroy = [];
         this.textes = [];
         this.queueAnimations = new QueueAnimations();
         this.destroyer = new Destroyer();
@@ -88,20 +87,8 @@ export class Scene {
 
     destroySptite = (idSprite) => {
         let spriteEntity = this.getEntityById(idSprite);
-        //console.log(spriteEntity);
-
-        this.spriteForDestroy.push(spriteEntity);
+        this.sprites.splice(this.sprites.indexOf(spriteEntity), 1);
         this.destroyer.push(spriteEntity.getEntity());
-    }
-
-    destroy = () => {
-        if(this.destroyer.isDestroyed()) {
-            this.spriteForDestroy.forEach(s => {
-                this.sprites.splice(this.sprites.indexOf(s), 1);
-            })
-            this.spriteForDestroy = [];
-        }
-        this.destroyer.destroy();
     }
 
     unclickingAll = () => {

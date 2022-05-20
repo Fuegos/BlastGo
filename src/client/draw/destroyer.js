@@ -7,6 +7,7 @@ export class Destroyer {
 
     destroy = () => {
         this.objects.forEach(obj => {
+            console.log(obj);
             obj.parent.removeChild(obj);
             let options = {
                 children: true

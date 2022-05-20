@@ -96,7 +96,7 @@ const updateText = (scene, keyName, time, curValue, goalValue) => {
 }
 
 const updateSceneGame = (sceneGame) => {
-  sceneGame.destroy();
+  sceneGame.getDestroyer().destroy();
 
   if(!gameSession.isImpossibleMove()) {
     gameSession.mixedTiles();
@@ -185,6 +185,14 @@ const updateSceneGame = (sceneGame) => {
   }
 }
 
+const changeScene = (mainStage, newScene) => {
+  mainStage.getDestroyer().push(mainStage.getScene());
+  mainStage.getDestroyer().destroy();
+  app.stage.addChild(newScene.getScene());
+
+  return newScene;
+}
+
 
 storeTextures.build().then(() => {  
   let mainStage = createSceneGame(storeTextures);
@@ -196,29 +204,16 @@ storeTextures.build().then(() => {
   };
 
   app.ticker.add((deltaTime) => {
+    
     if(!state.checkInterceptAnimation()) {
 
       if(state.checkChangeScene()) {
         if(state.checkGameOver()) {
-          mainStage.getDestroyer().push(mainStage.getScene());
-          mainStage.destroy();
-  
-          mainStage = createSceneGameOver(storeTextures);
-          app.stage.addChild(mainStage.getScene());
-  
+          mainStage = changeScene(mainStage, createSceneGameOver(storeTextures));
         } else if(state.checkWinning()) {
-          mainStage.getDestroyer().push(mainStage.getScene());
-          mainStage.destroy();
-          mainStage = createSceneWinning(storeTextures);
-          
-          app.stage.addChild(mainStage.getScene());
-  
+          mainStage = changeScene(mainStage, createSceneWinning(storeTextures));  
         } else if (state.checkGame()) {
-          mainStage.getDestroyer().push(mainStage.getScene());
-          mainStage.destroy();
-          mainStage = createSceneGame(storeTextures);
-          
-          app.stage.addChild(mainStage.getScene());
+          mainStage = changeScene(mainStage, createSceneGame(storeTextures));
         }
   
         state.uncheck();
@@ -275,7 +270,7 @@ const tailsForAnimation = (sceneGame, tiles) => {
       animations.push(
         new MovementAnimation(
           e,
-          50,
+          30,
           true,
           e.getPositioner().getIndentLeft(), 
           e.getPositioner().getIndentTop(),
@@ -294,16 +289,17 @@ const destroyTiles = (sceneGame, group) => {
 
   group.forEach(
     g => {
-      sceneGame.destroySptite(g.getId());
       let spriteEntity = sceneGame.getEntityById(g.getId());
       animations.push(
         new AlphaAnimation(
           spriteEntity,
-          50,
+          20,
           true,
           false
         )
       )
+
+      sceneGame.destroySptite(g.getId());
 
       let removingTile = gameSession.getTiles().filter(t => t.getId() === g.getId())[0];
       gameSession.getTiles().splice(gameSession.getTiles().indexOf(removingTile), 1);
@@ -373,7 +369,7 @@ const generateNewTiles = (sceneGame, storeTextures) => {
           movementAnimations.push(
             new MovementAnimation(
               spriteTile,
-              50,
+              30,
               true,
               spriteTile.getPositioner().getIndentLeft(),
               spriteTile.getPositioner().getIndentTop(),
@@ -398,7 +394,7 @@ const generateNewTiles = (sceneGame, storeTextures) => {
           emergenceAnimatioms.push(
             new AlphaAnimation(
               spriteEntity,
-              50,
+              20,
               true,
               true
             )
@@ -409,7 +405,7 @@ const generateNewTiles = (sceneGame, storeTextures) => {
           movementAnimations.push(
             new MovementAnimation(
               spriteTile,
-              50,
+              30,
               true,
               spriteTile.getPositioner().getIndentLeft(),
               spriteTile.getPositioner().getIndentTop(),
@@ -428,6 +424,7 @@ const generateNewTiles = (sceneGame, storeTextures) => {
 
 const resizeScene = (scene) => {
   scene.getEntities().forEach(e => {
+    //console.log(e);
     e.getResizer().resize(e.getEntity());
     e.getPositioner().setPosition(e.getEntity());
   });
