@@ -201,6 +201,9 @@ storeTextures.build().then(() => {
 
   window.onresize = () => {
     resizeScene(mainStage);
+    if(state.checkGame()) {
+      updateProgress(mainStage, gameSession.getScorer().getProgress(), gameSession.getScorer().getProgress());
+    }
   };
 
   app.ticker.add((deltaTime) => {
@@ -424,7 +427,6 @@ const generateNewTiles = (sceneGame, storeTextures) => {
 
 const resizeScene = (scene) => {
   scene.getEntities().forEach(e => {
-    //console.log(e);
     e.getResizer().resize(e.getEntity());
     e.getPositioner().setPosition(e.getEntity());
   });
