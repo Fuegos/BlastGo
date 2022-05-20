@@ -5,7 +5,6 @@ import settings from "./settings/settingsScenes.json"
 import {
   COUNT_ROWS, 
   COUNT_COLUMNS, 
-  COLOR_ASSET,
   MIN_GROUP,
   GOAL_COUNT_SCORE,
   LEN_GROUP_BOMB,
@@ -17,6 +16,7 @@ import { MovementAnimation } from "./client/animation/movementAnimation.js";
 import { TextAnimation } from "./client/animation/textAnimation.js";
 import { AlphaAnimation } from "./client/animation/alphaAnimation.js";
 import { ProgressAnimation } from "./client/animation/progressAnimation.js";
+import { DrawerGameField } from "./client/draw/drawerGameField.js";
 
 
 const app = new Application({
@@ -27,6 +27,7 @@ const app = new Application({
 
 let storeTextures = new StoreTextures();
 const state = new State();
+let drawerGameField = new DrawerGameField();
 let gameSession;
 
 
@@ -40,7 +41,7 @@ const createSceneGame = (storeTextures) => {
   updateText(sceneGame, "countMoney", 50, 0, gameSession.getPlayer().getCountMoney());
 
   gameSession.getTiles().forEach(t => {
-    createEntityForGameField(
+    drawerGameField.generateEntityForTile(
       sceneGame,
       storeTextures,
       t.getId(),
@@ -150,14 +151,12 @@ const updateSceneGame = (sceneGame) => {
       updateText(sceneGame, "countScore", 50, curCountScore, gameSession.getScorer().getCurrentScore());
       updateText(sceneGame, "countMove", 50, curCountMove, gameSession.getScorer().getRestMove());
       updateProgress(sceneGame, curProgress, gameSession.getScorer().getProgress());
+      resizeScene(sceneGame);
     }
   }
 
-  // click pause ?
-
   let bonusBomb = sceneGame.getEntityByKeyName("bonusBomb");
   let iconBomb = sceneGame.getEntityByKeyName("bomb");
-  //console.log(sceneGame.getEntities());
 
   if(bonusBomb.checkClicked() || iconBomb.checkClicked()) {
     let tilesForReplace = gameSession.getTiles().filter(t => t.getColor() !== "bomb");
@@ -169,14 +168,16 @@ const updateSceneGame = (sceneGame) => {
         let randomTile = tilesForReplace[Math.floor(Math.random() * tilesForReplace.length)];
         randomTile.setBonus("bomb");
         sceneGame.destroySptite(randomTile.getId());
-        createEntityForGameField(
+        drawerGameField.generateEntityForTile(
           sceneGame, 
           storeTextures, 
           randomTile.getId(),
           randomTile.getColor(),
           randomTile.getNumRow(),
-          randomTile.getNumColumn() 
-        );
+          randomTile.getNumColumn()
+        )
+        
+        resizeScene(sceneGame);
       }
 
       updateText(sceneGame, "countMoney", 50, curCountMoney, gameSession.getPlayer().getCountMoney());
@@ -278,37 +279,14 @@ const tailsForAnimation = (sceneGame, tiles) => {
           true,
           e.getPositioner().getIndentLeft(), 
           e.getPositioner().getIndentTop(),
-          tile.getNumColumn() / COUNT_COLUMNS, 
-          tile.getNumRow() / COUNT_ROWS
+          drawerGameField.calcIndentLeft(tile.getNumColumn()),
+          drawerGameField.calcIndentTop(tile.getNumRow())
         )
       );
     }
   });
 
   sceneGame.getQueueAnimations().pushNewGroup(animations);
-}
-
-const createEntityForGameField = (sceneGame, storeTextures, idEntity, color, numRow, numCol) => {
-  let drawSettings = {
-    "valueFill": 1 / Math.max(COUNT_ROWS, COUNT_COLUMNS),
-    "indentLeft": numCol / COUNT_COLUMNS,
-    "indentTop": numRow / COUNT_ROWS
-  }
-
-  let spriteEntity = sceneGame.createSpriteEntity(
-    storeTextures,
-    idEntity,
-    COLOR_ASSET[color],
-    {
-      "laptop": drawSettings,
-      "mobile": drawSettings
-    },
-    sceneGame.getEntityByKeyName("gameField").getEntity()
-  )
-
-  resizeScene(sceneGame);
-
-  return spriteEntity;
 }
 
 const destroyTiles = (sceneGame, group) => {
@@ -340,14 +318,14 @@ const generateBomb = (sceneGame, tile) => {
   let bombTile = gameSession.generateTile(tile.getNumRow(), tile.getNumColumn());
   bombTile.setBonus("bomb");
 
-  createEntityForGameField(
+  drawerGameField.generateEntityForTile(
     sceneGame,
     storeTextures,
     bombTile.getId(),
     bombTile.getColor(),
     bombTile.getNumRow(),
     bombTile.getNumColumn()
-  );
+  )
 }
 
 
@@ -399,8 +377,8 @@ const generateNewTiles = (sceneGame, storeTextures) => {
               true,
               spriteTile.getPositioner().getIndentLeft(),
               spriteTile.getPositioner().getIndentTop(),
-              j / COUNT_COLUMNS,
-              maxFreeRow / COUNT_ROWS
+              drawerGameField.calcIndentLeft(j),
+              drawerGameField.calcIndentTop(maxFreeRow)
             )
           );
 
@@ -408,8 +386,7 @@ const generateNewTiles = (sceneGame, storeTextures) => {
 
           let newTile = gameSession.generateTile(maxFreeRow, j);
 
-
-          let spriteEntity = createEntityForGameField(
+          let spriteEntity = drawerGameField.generateEntityForTile(
             sceneGame,
             storeTextures,
             newTile.getId(),
@@ -436,8 +413,8 @@ const generateNewTiles = (sceneGame, storeTextures) => {
               true,
               spriteTile.getPositioner().getIndentLeft(),
               spriteTile.getPositioner().getIndentTop(),
-              j / COUNT_COLUMNS,
-              maxFreeRow / COUNT_ROWS
+              drawerGameField.calcIndentLeft(j),
+              drawerGameField.calcIndentTop(maxFreeRow)
             )
           )
         }

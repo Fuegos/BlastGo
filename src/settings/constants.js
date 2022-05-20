@@ -38,6 +38,9 @@ const SCORE_ONE_TILE = 10;
 const SCORE_ONE_MOVE = 10;
 const PRICE_BOMB = 5;
 
+const PADDING_GAME_FIELD_X = 0.02;
+const PADDING_GAME_FIELD_Y = 0.02;
+
 export {
     COUNT_ROWS, 
     COUNT_COLUMNS, 
@@ -53,5 +56,7 @@ export {
     RADIUS_BOMB,
     SCORE_ONE_TILE,
     SCORE_ONE_MOVE,
-    PRICE_BOMB
+    PRICE_BOMB,
+    PADDING_GAME_FIELD_X,
+    PADDING_GAME_FIELD_Y
 };
