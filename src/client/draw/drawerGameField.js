@@ -1,17 +1,19 @@
+import { Graphics } from "pixi.js";
 import { 
-    COUNT_ROWS, 
-    COUNT_COLUMNS, 
     COLOR_ASSET,
     PADDING_GAME_FIELD_X,
     PADDING_GAME_FIELD_Y
- } from "../../settings/constants";
+} from "../../settings/constants";
 
 
 export class DrawerGameField {
-    constructor() {}
+    constructor(countRows, countColumns) {
+        this.countRows = countRows;
+        this.countColumns = countColumns;
+    }
 
     getPadding = () => {
-        if(COUNT_COLUMNS > COUNT_ROWS) {
+        if(this.countColumns > this.countRows) {
             return PADDING_GAME_FIELD_X;
         } else {
             return PADDING_GAME_FIELD_Y;
@@ -19,16 +21,16 @@ export class DrawerGameField {
     }
 
     calcValueFill = () => {
-        return (1 - this.getPadding() * 2) / Math.max(COUNT_ROWS, COUNT_COLUMNS);
+        return (1 - this.getPadding() * 2) / Math.max(this.countRows, this.countColumns);
     }
 
     calcIndentLeft = (numCol) => {
-        let freeSpace = (1 - PADDING_GAME_FIELD_X * 2) - COUNT_COLUMNS * this.calcValueFill();
+        let freeSpace = (1 - PADDING_GAME_FIELD_X * 2) - this.countColumns * this.calcValueFill();
         return PADDING_GAME_FIELD_X + freeSpace / 2 + numCol * this.calcValueFill();
     }
 
     calcIndentTop = (numRow) => {
-        let freeSpace = (1 - PADDING_GAME_FIELD_Y * 2) - COUNT_ROWS * this.calcValueFill();
+        let freeSpace = (1 - PADDING_GAME_FIELD_Y * 2) - this.countRows * this.calcValueFill();
         return PADDING_GAME_FIELD_Y + freeSpace / 2 + numRow * this.calcValueFill();
     }
 
@@ -52,4 +54,14 @@ export class DrawerGameField {
 
         return spriteEntity;
     }
+
+    drawProgress = (scene) => {
+        let spriteProgress = scene.getEntityByKeyName("progressFront");
+        let maskProgress = new Graphics();
+        scene.getScene().addChild(maskProgress);
+      
+        spriteProgress.getEntity().mask = maskProgress;
+    }
+
+
 }

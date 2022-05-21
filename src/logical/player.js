@@ -15,5 +15,4 @@ export class Player {
     }
     
     getCountMoney = () => this.countMoney;
-
 }

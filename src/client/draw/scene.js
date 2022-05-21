@@ -73,6 +73,13 @@ export class Scene {
         return sprite;
     }
 
+    resize = () => {
+        this.getEntities().forEach(e => {
+            e.getResizer().resize(e.getEntity());
+            e.getPositioner().setPosition(e.getEntity());
+        });
+    }
+
     getSprites = () => this.sprites;
 
     getTextes = () => this.textes;
