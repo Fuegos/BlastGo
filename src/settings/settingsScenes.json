@@ -1,0 +1,302 @@
+{
+    "game": {
+        "gameField": {
+            "sprites": [{
+                "laptop": {
+                    "valueFill": 0.33,
+                    "indentTop": 0.18,
+                    "indentLeft": 0.1
+                },
+                "mobile": {
+                    "valueFill": 0.9,
+                    "indentTop": 0.25,
+                    "indentLeft": 0.05
+                }
+            }],
+            "textes": []
+        },
+        "money": {
+            "sprites": [{
+                "laptop": {
+                    "valueFill": 0.13,
+                    "indentTop": 0.02,
+                    "indentLeft": 0.13
+                },
+                "mobile": {
+                    "valueFill": 0.25,
+                    "indentTop": 0.1,
+                    "indentLeft": 0.4
+                },
+                "children": {
+                    "countMoney": {
+                        "sprites": [],
+                        "textes": [{
+                            "laptop": {
+                                "indentTop": 0.05,
+                                "indentLeft": 0.4,
+                                "size": 0.2
+                            },
+                            "mobile": {
+                                "indentTop": 0.05,
+                                "indentLeft": 0.4,
+                                "size": 0.2
+                            },
+                            "textValue": "&value&",
+                            "value": 0
+                        }]
+                    }
+                }
+            }],
+            "textes": []
+        },
+        "pause": {
+            "sprites": [{
+                "laptop": {
+                    "valueFill": 0.07,
+                    "indentTop": 0.02,
+                    "indentLeft": 0.87
+                },
+                "mobile": {
+                    "valueFill": 0.08,
+                    "indentTop": 0,
+                    "indentLeft": 0.9
+                }
+            }],
+            "textes": []
+        },
+        "progressBack": {
+            "sprites": [{
+                "laptop": {
+                    "valueFill": 0.29,
+                    "indentTop": 0,
+                    "indentLeft": 0.35
+                },
+                "mobile": {
+                    "valueFill": 0.5,
+                    "indentTop": 0,
+                    "indentLeft": 0.38
+                },
+                "children": {
+                    "progressFront": {
+                        "sprites": [{
+                            "laptop": {
+                                "valueFill": 0.91,
+                                "indentTop": 0.43,
+                                "indentLeft": 0.04
+                            },
+                            "mobile": {
+                                "valueFill": 0.91,
+                                "indentTop": 0.43,
+                                "indentLeft": 0.04
+                            }
+                        }],
+                        "textes": [] 
+                    }
+                }
+            }],
+            "textes": []
+        },
+        "bonusBomb": {
+            "sprites": [{
+                "laptop": {
+                    "valueFill": 0.08,
+                    "indentTop": 0.8,
+                    "indentLeft": 0.625
+                },
+                "mobile": {
+                    "valueFill": 0.15,
+                    "indentTop": 0.1,
+                    "indentLeft": 0.75
+                },
+                "children": {
+                    "bomb": {
+                        "sprites": [{
+                            "laptop": {
+                                "valueFill": 0.5,
+                                "indentTop": 0.1,
+                                "indentLeft": 0.3
+                            },
+                            "mobile": {
+                                "valueFill": 0.5,
+                                "indentTop": 0.1,
+                                "indentLeft": 0.3
+                            }
+                        }],
+                        "textes": []
+                    }
+                }
+            }],
+            "textes": []
+        },
+        "score": {
+            "sprites": [{
+                "laptop": {
+                    "valueFill": 0.23,
+                    "indentTop": 0.18,
+                    "indentLeft": 0.55
+                },
+                "mobile": {
+                    "valueFill": 0.3,
+                    "indentTop": 0,
+                    "indentLeft": 0.05
+                },
+                "children": {
+                    "countMove": {
+                        "sprites": [],
+                        "textes": [{
+                            "laptop": {
+                                "indentTop": 0.16,
+                                "indentLeft": 0.4,
+                                "size": 0.2
+                            },
+                            "mobile": {
+                                "indentTop": 0.16,
+                                "indentLeft": 0.4,
+                                "size": 0.2
+                            },
+                            "textValue": "&value&",
+                            "value": 0
+                        }]
+                    },
+                    "countScore": {
+                        "sprites": [],
+                        "textes": [{
+                            "laptop": {
+                                "indentTop": 0.71,
+                                "indentLeft": 0.4,
+                                "size": 0.1
+                            },
+                            "mobile": {
+                                "indentTop": 0.71,
+                                "indentLeft": 0.4,
+                                "size": 0.1
+                            },
+                            "textValue": "&value&",
+                            "value": 0
+                        }]
+                    }
+                }
+            }],
+            "textes": []
+        }
+    },
+    "winning": {
+        "result": {
+            "sprites": [],
+            "textes": [{
+                "laptop": {
+                    "indentTop": 0.1,
+                    "indentLeft": 0.2,
+                    "size": 0.1
+                },
+                "mobile": {
+                    "indentTop": 0.1,
+                    "indentLeft": 0.1,
+                    "size": 0.15
+                },
+                "textValue": "YOU WIN!",
+                "value": 0
+            }]
+        },
+        "scoreTotal": {
+            "sprites": [],
+            "textes": [{
+                "laptop": {
+                    "indentTop": 0.5,
+                    "indentLeft": 0.3,
+                    "size": 0.03
+                },
+                "mobile": {
+                    "indentTop": 0.5,
+                    "indentLeft": 0.15,
+                    "size": 0.06
+                },
+                "textValue": "Your score: &value&",
+                "value": 0
+            }]
+        },
+        "replay": {
+            "sprites": [{
+                "laptop": {
+                    "valueFill": 0.3,
+                    "indentTop": 0.7,
+                    "indentLeft": 0.3
+                },
+                "mobile": {
+                    "valueFill": 0.45,
+                    "indentTop": 0.7,
+                    "indentLeft": 0.2
+                }
+            }],
+            "textes": []
+        }
+    },
+    "gameOver": {
+        "result": {
+            "sprites": [],
+            "textes": [{
+                "laptop": {
+                    "indentTop": 0.1,
+                    "indentLeft": 0.2,
+                    "size": 0.1
+                },
+                "mobile": {
+                    "indentTop": 0.1,
+                    "indentLeft": 0.1,
+                    "size": 0.15
+                },
+                "textValue": "YOU LOSE!",
+                "value": 0
+            }]
+        },
+        "scoreTotal": {
+            "sprites": [],
+            "textes": [{
+                "laptop": {
+                    "indentTop": 0.5,
+                    "indentLeft": 0.3,
+                    "size": 0.03
+                },
+                "mobile": {
+                    "indentTop": 0.5,
+                    "indentLeft": 0.15,
+                    "size": 0.06
+                },
+                "textValue": "Your score: &value&",
+                "value": 0
+            }]
+        },
+        "scoreGoal": {
+            "sprites": [],
+            "textes": [{
+                "laptop": {
+                    "indentTop": 0.6,
+                    "indentLeft": 0.3,
+                    "size": 0.03
+                },
+                "mobile": {
+                    "indentTop": 0.6,
+                    "indentLeft": 0.15,
+                    "size": 0.06
+                },
+                "textValue": "Goal score: &value&",
+                "value": 0
+            }]
+        },
+        "replay": {
+            "sprites": [{
+                "laptop": {
+                    "valueFill": 0.3,
+                    "indentTop": 0.75,
+                    "indentLeft": 0.3
+                },
+                "mobile": {
+                    "valueFill": 0.45,
+                    "indentTop": 0.75,
+                    "indentLeft": 0.2
+                }
+            }],
+            "textes": []
+        }
+    }
+}

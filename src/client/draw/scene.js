@@ -1,8 +1,9 @@
 import { Container } from "pixi.js";
 import { SpriteEntity } from "./spriteEntity.js";
+import { QueueAnimations } from "../animation/queueAnimations";
 import { TextEntity } from "./textEntity.js";
-import { MovementAnimation } from "./movementAnimation.js";
 import { v4 as uuidv4 } from 'uuid';
+import { Destroyer } from "./Destroyer.js";
 
 
 export class Scene {
@@ -10,7 +11,8 @@ export class Scene {
         this.scene = new Container(); 
         this.sprites = [];
         this.textes = [];
-        this.movementAnimations = [];
+        this.queueAnimations = new QueueAnimations();
+        this.destroyer = new Destroyer();
     }
 
     createEntities = (storeTextures, dataSettings, parent) => {
@@ -22,10 +24,11 @@ export class Scene {
                     uuidv4(),
                     key,
                     parent,
-                    e.indentTop,
-                    e.indentLeft,
-                    storeTextures.getTexture(key), 
-                    e.valueFill
+                    storeTextures.getTexture(key),
+                    {
+                        "laptop": e.laptop,
+                        "mobile": e.mobile
+                    }
                 );
 
                 this.sprites.push(sprite);
@@ -41,10 +44,12 @@ export class Scene {
                     uuidv4(),
                     key, 
                     parent, 
-                    e.indentTop, 
-                    e.indentLeft, 
-                    e.value, 
-                    e.size
+                    e.textValue, 
+                    e.value,
+                    {
+                        "laptop": e.laptop,
+                        "mobile": e.mobile
+                    }
                 );
 
                 this.textes.push(text);
@@ -53,34 +58,44 @@ export class Scene {
         });
     }
 
-    createSpriteEntity = (storeTextures, id, key, settings, parent) => {
+    createSpriteEntity = (storeTextures, id, key, drawSettings, parent) => {
         let sprite = new SpriteEntity(
             id,
             key,
             parent,
-            settings.indentTop,
-            settings.indentLeft,
-            storeTextures.getTexture(key), 
-            settings.valueFill
+            storeTextures.getTexture(key),
+            drawSettings
         );
 
         this.sprites.push(sprite);
         this.scene.addChild(sprite.getEntity());
-        sprite.resize();
-        sprite.setPosition();
+
+        return sprite;
+    }
+
+    resize = () => {
+        this.getEntities().forEach(e => {
+            e.getResizer().resize(e.getEntity());
+            e.getPositioner().setPosition(e.getEntity());
+        });
     }
 
     getSprites = () => this.sprites;
 
     getTextes = () => this.textes;
 
+    getEntities = () => this.sprites.concat(this.textes);
+
     getScene = () => this.scene;
 
+    getEntityByKeyName = (keyName) => this.getEntities().filter(e => e.getKeyName() === keyName)[0];
+
+    getEntityById = (id) => this.getEntities().filter(e => e.getId() === id)[0];
+
     destroySptite = (idSprite) => {
-        let sprite = this.sprites.filter(s => s.getId() === idSprite)[0];
-        this.sprites.splice(this.sprites.indexOf(sprite), 1);
-        this.scene.removeChild(sprite.getEntity());
-        sprite.getEntity().destroy({children:true, baseTexture:true});
+        let spriteEntity = this.getEntityById(idSprite);
+        this.sprites.splice(this.sprites.indexOf(spriteEntity), 1);
+        this.destroyer.push(spriteEntity.getEntity());
     }
 
     unclickingAll = () => {
@@ -89,25 +104,7 @@ export class Scene {
         });
     }
 
-    checkAnimation = () => this.movementAnimations.length;
+    getQueueAnimations = () => this.queueAnimations;
 
-    animate = (deltaTime) => {
-        this.movementAnimations.forEach(a => a.move(deltaTime));
-    
-        let animateCompleted = this.movementAnimations.filter(a => a.getIsCompleted());
-        animateCompleted.forEach(a => {
-            this.movementAnimations.splice(this.movementAnimations.indexOf(a), 1);
-        });
-    }
-
-    addAnimation = (entity, time, goalIndentLeft, goalIndentTop) => {
-        this.movementAnimations.push(
-            new MovementAnimation(
-              entity,
-              time,
-              goalIndentLeft,
-              goalIndentTop
-            )
-        );
-    }
+    getDestroyer = () => this.destroyer;
 }

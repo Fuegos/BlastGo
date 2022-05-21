@@ -3,7 +3,7 @@ import {
     SCORE_ONE_TILE,
     SCORE_ONE_MOVE, 
     GOAL_COUNT_SCORE
-} from './constants'
+} from '../settings/constants'
 
 export class Scorer {
     constructor() {

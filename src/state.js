@@ -1,18 +1,18 @@
 export class State {
     constructor() {
-        this.isDrawingAnimation = false;
+        this.isInterceptAnimation = false;
         this.isGameOver = false;
         this.isWinning = false;
         this.isChangeScene = false;
         this.isGame = true;
     }
 
-    drawAnimation = () => {
-        this.isDrawingAnimation = true;
+    interceptAnimation = () => {
+        this.isInterceptAnimation = true;
     }
 
-    stopDrawAnimation = () => {
-        this.isDrawingAnimation = false;
+    stopInterceptAnimation = () => {
+        this.isInterceptAnimation = false;
     }
 
     gameOver = () => {
@@ -36,7 +36,7 @@ export class State {
 
     uncheck = () => this.isChangeScene = false;
 
-    checkStateDrawingAnimation = () => this.isDrawingAnimation;
+    checkInterceptAnimation = () => this.isInterceptAnimation;
 
     checkGameOver = () => this.isGameOver;
 
